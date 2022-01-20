@@ -34,6 +34,9 @@ app.addHook('onClose', async (instance, done) => {
   done();
 });
 
+// register routes.
+app.register(require('./src/routes/task'))
+
 // Start listening.
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) {

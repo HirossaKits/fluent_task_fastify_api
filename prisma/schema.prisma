@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,89 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+model Organization {
+  org_id   String    @id @default(uuid())
+  org_name String
+  user_id  String?   @unique
+  org_user User[]
+  project  Project[]
+}
+
+model User {
+  user_id        String        @id @default(uuid())
+  email          String        @unique
+  org_id         String
+  org            Organization? @relation(fields: [org_id], references: [user_id])
+  is_org_rep     Boolean       @default(false)
+  is_org_admin   Boolean       @default(false)
+  assigned_task  Task[]        @relation("task_assigned")
+  posted_task    Task[]        @relation("task_author")
+  profile        Profile?
+  resp_project   Project[]     @relation("project_resp")
+  member_project Project[]     @relation("project_member")
+  created_at     DateTime      @default(now())
+  update_at      DateTime      @updatedAt
+}
+
+model Profile {
+  user_id    String @id
+  user       User   @relation(fields: [user_id], references: [user_id])
+  first_name String
+  last_name  String
+  avatar_img String
+  comment    String
+}
+
+model Project {
+  project_id    String         @id @default(uuid())
+  project_name  String
+  org_id        String
+  org           Organization   @relation(fields: [org_id], references: [org_id])
+  resp_id       String
+  resp          User           @relation(name: "project_resp", fields: [resp_id], references: [user_id])
+  member_id     String[]
+  member        User[]         @relation(name: "project_member", fields: [member_id], references: [user_id])
+  description   String
+  startdate     String
+  enddate       String
+  task_category TaskCategory[]
+  created_at    DateTime       @default(now())
+  update_at     DateTime       @updatedAt
+}
+
+model Task {
+  task_id             String       @id @default(uuid())
+  task_name           String
+  project_id          String
+  project_name        String
+  task_category_id    Int
+  task_category       TaskCategory @relation(fields: [task_category_id], references: [task_category_id])
+  assigned_id         String
+  assigned            User         @relation(name: "task_assigned", fields: [assigned_id], references: [user_id])
+  author_id           String
+  author              User         @relation(name: "task_author", fields: [author_id], references: [user_id])
+  description         String
+  status              String
+  estimate_manhour    Int
+  actual_manhour      Int
+  scheduled_startdate String
+  scheduled_enddate   String
+  actual_startdate    String
+  actual_enddate      String
+  created_at          DateTime     @default(now())
+  update_at           DateTime     @updatedAt
+}
+
+model TaskCategory {
+  task_category_id   Int     @id @default(autoincrement())
+  task_category_name String
+  project_id         String
+  project            Project @relation(fields: [project_id], references: [project_id])
+  Task               Task[]
 }

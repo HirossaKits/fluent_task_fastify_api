@@ -1,0 +1,4 @@
+## Press Ctrl + Alt + R
+
+## example
+GET http://localhost:3000/example HTTP/1.1
