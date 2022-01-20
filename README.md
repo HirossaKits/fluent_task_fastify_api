@@ -25,6 +25,7 @@ To learn Fastify, check out the [Fastify documentation](https://www.fastify.io/d
 
 ## use following command
 
+npm install concurrently -global
 npm install fastify-cli -global
 fastify generate fluent_task_api --lang=ts
 npm install
