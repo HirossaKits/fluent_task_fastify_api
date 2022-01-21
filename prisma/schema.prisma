@@ -51,7 +51,7 @@ model Project {
   org           Organization   @relation(fields: [org_id], references: [org_id])
   resp_id       String
   resp          User           @relation(name: "project_resp", fields: [resp_id], references: [user_id])
-  member_id     String[]
+  member_id     String
   member        User[]         @relation(name: "project_member", fields: [member_id], references: [user_id])
   description   String
   startdate     String
@@ -65,7 +65,6 @@ model Task {
   task_id             String       @id @default(uuid())
   task_name           String
   project_id          String
-  project_name        String
   task_category_id    Int
   task_category       TaskCategory @relation(fields: [task_category_id], references: [task_category_id])
   assigned_id         String
