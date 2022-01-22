@@ -1,37 +1,85 @@
+# docker-compose up する前に下記のコマンドを実行すること
+# docker volume create postgres_volume
+
 version: '3'
 
 services:
-  postgresql:
+  fluent_task:
     image: postgres:13.4
-    container_name: postgresql
+    container_name: fluent_task
     ports:
       - 5432:5432
     volumes:
       - postgres_volume:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_INITDB_ARGS: '--encoding=UTF-8'
-      TZ: Asia/Tokyo
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
     hostname: postgres
     restart: always
     user: root
-
-  pgadmin4:
-    image: dpage/pgadmin4:5.6
-    container_name: pgadmin4
-    ports:
-      - 8000:80
-    volumes:
-      - pgadmin4_volume:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: root@myapp.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    hostname: pgadmin4
-    restart: always
-
 volumes:
   postgres_volume:
     external: true
-  pgadmin4_volume:
-    external: true
+
+
+## 説明
+# 下記を参考にさせていただきました
+# https://qiita.com/yuki_0920/items/dc3f32667d004979cc5a
+# volumes:
+# ボリュームマウントするためのデータボリューム
+# stdin_open:
+# 標準入出力とエラー出力をコンテナに結びつける設定
+# tty:
+# 擬似端末(キーボードによる入力)をコンテナに結びつける設定
+
+# version: '3'
+
+# services:
+#   db:
+#     image: postgres:12
+#     ports:
+#       - '5432:5432'
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     environment:
+#       POSTGRES_HOST_AUTH_METHOD: trust
+#   web:
+#     build: .
+#     command: bundle exec rails server -p 3000 -b '0.0.0.0'
+#     depends_on:
+#       - db
+#     ports:
+#       - '3000:3000'
+#     environment:
+#       DATABASE_HOST: 'db'
+#     tty: true
+#     stdin_open: true
+#     volumes:
+#       - .:/myapp:delegated
+# volumes:
+#   pgdata:
+
+
+## pgadmin4 を使用の場合は下記を使用
+## docker-compose up する前に下記のコマンドを実行すること
+## docker volume create pgadmin4_volume
+
+# version: '3'
+
+#   pgadmin4:
+#     image: dpage/pgadmin4:5.6
+#     container_name: pgadmin4
+#     ports:
+#       - 8000:80
+#     volumes:
+#       - pgadmin4_volume:/var/lib/pgadmin
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: root@myapp.com
+#       PGADMIN_DEFAULT_PASSWORD: root
+#     hostname: pgadmin4
+#     restart: always
+
+# volumes:
+#   pgadmin4_volume:
+#     external: true
