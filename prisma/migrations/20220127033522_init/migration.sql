@@ -2,7 +2,6 @@
 CREATE TABLE "Organization" (
     "org_id" TEXT NOT NULL,
     "org_name" TEXT NOT NULL,
-    "user_id" TEXT,
 
     CONSTRAINT "Organization_pkey" PRIMARY KEY ("org_id")
 );
@@ -11,7 +10,7 @@ CREATE TABLE "Organization" (
 CREATE TABLE "User" (
     "user_id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "org_id" TEXT NOT NULL,
+    "org_id" TEXT,
     "is_org_rep" BOOLEAN NOT NULL DEFAULT false,
     "is_org_admin" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -52,7 +51,6 @@ CREATE TABLE "Task" (
     "task_id" TEXT NOT NULL,
     "task_name" TEXT NOT NULL,
     "project_id" TEXT NOT NULL,
-    "project_name" TEXT NOT NULL,
     "task_category_id" INTEGER NOT NULL,
     "assigned_id" TEXT NOT NULL,
     "author_id" TEXT NOT NULL,
@@ -86,9 +84,6 @@ CREATE TABLE "_project_member" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Organization_user_id_key" ON "Organization"("user_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -98,7 +93,7 @@ CREATE UNIQUE INDEX "_project_member_AB_unique" ON "_project_member"("A", "B");
 CREATE INDEX "_project_member_B_index" ON "_project_member"("B");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_org_id_fkey" FOREIGN KEY ("org_id") REFERENCES "Organization"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_org_id_fkey" FOREIGN KEY ("org_id") REFERENCES "Organization"("org_id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;

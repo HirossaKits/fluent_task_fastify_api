@@ -14,7 +14,6 @@ generator erd {
 model Organization {
   org_id   String    @id @default(uuid())
   org_name String
-  user_id  String?   @unique
   org_user User[]
   project  Project[]
 }
@@ -22,8 +21,8 @@ model Organization {
 model User {
   user_id        String        @id @default(uuid())
   email          String        @unique
-  org_id         String
-  org            Organization? @relation(fields: [org_id], references: [user_id])
+  org_id         String?
+  org            Organization? @relation(fields: [org_id], references: [org_id])
   is_org_rep     Boolean       @default(false)
   is_org_admin   Boolean       @default(false)
   assigned_task  Task[]        @relation("task_assigned")
