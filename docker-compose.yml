@@ -1,4 +1,4 @@
-# docker-compose up する前に下記のコマンドを実行すること
+# docker-compose up する前にvolumeを作成すること
 # docker volume create postgres_volume
 
 version: '3'
@@ -7,14 +7,17 @@ services:
   fluent_task:
     image: postgres:13.4
     container_name: fluent_task
+    expose:
+      - "5433"
     ports:
-      - 5432:5432
+      - "5433:5433"
     volumes:
       - postgres_volume:/var/lib/postgresql/data
+    command: -p 5433
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
     hostname: postgres
     restart: always
     user: root
@@ -22,47 +25,8 @@ volumes:
   postgres_volume:
     external: true
 
-
-## 説明
-# 下記を参考にさせていただきました
-# https://qiita.com/yuki_0920/items/dc3f32667d004979cc5a
-# volumes:
-# ボリュームマウントするためのデータボリューム
-# stdin_open:
-# 標準入出力とエラー出力をコンテナに結びつける設定
-# tty:
-# 擬似端末(キーボードによる入力)をコンテナに結びつける設定
-
-# version: '3'
-
-# services:
-#   db:
-#     image: postgres:12
-#     ports:
-#       - '5432:5432'
-#     volumes:
-#       - pgdata:/var/lib/postgresql/data
-#     environment:
-#       POSTGRES_HOST_AUTH_METHOD: trust
-#   web:
-#     build: .
-#     command: bundle exec rails server -p 3000 -b '0.0.0.0'
-#     depends_on:
-#       - db
-#     ports:
-#       - '3000:3000'
-#     environment:
-#       DATABASE_HOST: 'db'
-#     tty: true
-#     stdin_open: true
-#     volumes:
-#       - .:/myapp:delegated
-# volumes:
-#   pgdata:
-
-
 ## pgadmin4 を使用の場合は下記を使用
-## docker-compose up する前に下記のコマンドを実行すること
+## docker-compose up する前にvolumeを作成すること
 ## docker volume create pgadmin4_volume
 
 # version: '3'
