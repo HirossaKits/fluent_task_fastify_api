@@ -1,6 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 
-
 const getProjectOpt = {
   schema: {
     params: {
@@ -12,21 +11,22 @@ const getProjectOpt = {
       description: { type: 'string' },
       startdate: { type: 'string' },
       enddate: { type: 'string' },
-      task_category: { type: 'array', items: { type: 'string' } }
+      task_category: { type: 'array', items: { type: 'string' } },
+    },
+  },
+};
 
-    }
-  }
-}
+// test
 
-
-
-
-
-export default function projectRoutes(fastify: FastifyInstance, options: FastifyPluginOptions, done: (err?: FastifyError) => void) {
-  fastify.get('/projects')
+export default function projectRoutes(
+  fastify: FastifyInstance,
+  options: FastifyPluginOptions,
+  done: (err?: FastifyError) => void
+) {
+  fastify.get('/projects');
   // fastify.get('/tasks/:id')
   // fastify.post('/task/:id')
   // fastify.delete('/task/:id')
   // fastify.put('/task/:id')
-  done()
+  done();
 }

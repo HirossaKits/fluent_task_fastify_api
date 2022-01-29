@@ -14,11 +14,11 @@ const prisma = new PrismaClient();
 // };
 
 async function main() {
-  const org = await prisma.organization.create({
+  await prisma.organization.create({
     data: {
       org_name: 'OrgB',
-      org_user: null,
-      project: null,
+      // org_user: null,
+      // project: null,
     },
   });
 }
