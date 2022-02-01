@@ -41,13 +41,16 @@ export const updateOrganization = async (req: any, reply: any) => {
   }
 };
 
-export const deleteOrganization = async (req:any,reply:any) => {
+export const deleteOrganization = async (req: any, reply: any) => {
   try {
-    const {org_id} = req.params;
+    const { org_id } = req.params;
     const organization = await prisma.organization.delete({
       where: {
-        org_id: org_id
-      }
-    }
+        org_id: org_id,
+      },
+    });
+    reply.send(organization);
+  } catch (error) {
+    reply.status(500).send(error);
   }
 };

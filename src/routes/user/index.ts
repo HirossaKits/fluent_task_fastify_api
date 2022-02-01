@@ -28,6 +28,8 @@ const postUserOpts = {
       properties: {
         email: { type: 'string' },
         org_id: { type: 'string' },
+        is_org_rep: { type: 'boolean' },
+        is_org_admin: { type: 'boolean' },
       },
     },
   },

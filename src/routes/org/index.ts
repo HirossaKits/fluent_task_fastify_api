@@ -5,6 +5,7 @@ import {
   getOrganization,
   addOrganization,
   updateOrganization,
+  deleteOrganization,
 } from '../../controller/orgController';
 
 // const Organization = {
@@ -70,20 +71,20 @@ const updateOrganizationOpts = {
 const deleteOrganizationOpts = {
   schema: {
     param: {
-      org_id: {type: 'string'},
+      org_id: { type: 'string' },
     },
     response: {
       200: Organization,
     },
   },
-  handler: 
-}
+  handler: deleteOrganization,
+};
 
 const org = async (fastify: any, options: any, done: any) => {
   fastify.get('/:org_id', getOrganizationOpts);
   fastify.post('/', postOrganizationOpts);
   fastify.put('/:org_id', updateOrganizationOpts);
-  fastify.delete('/:org_id',deleteOrganizationOpts);
+  fastify.delete('/:org_id', deleteOrganizationOpts);
   //   fastify.delete('/task/:id')
   //   fastify.put('/task/:id')
   done();
