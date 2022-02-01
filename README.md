@@ -34,5 +34,4 @@ npm install bcrypt @types/bcrypt @sinclair/typebox
 npm install prisma --save-dev
 npx prisma init
 npm install @prisma/client
-
 npm i -D prisma-erd-generator

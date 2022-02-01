@@ -1,8 +1,8 @@
 {
-  "extends": "fastify-tsconfig",
+  // "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
-    "noUnusedParameters": false
+    "sourceMap": true
   },
   "include": ["src/**/*.ts"]
 }
