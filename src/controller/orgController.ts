@@ -20,7 +20,7 @@ export const addOrganization = async (req: any, reply: any) => {
     const organization = await prisma.organization.create({
       data: req.body,
     });
-    reply.send(201).send(organization);
+    reply.status(201).send(organization);
   } catch (error) {
     reply.status(500).send(error);
   }

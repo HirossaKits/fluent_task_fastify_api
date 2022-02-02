@@ -38,26 +38,38 @@ POST http://localhost:3000/user HTTP/1.1
 Content-Type: application/json
 
 {
-    "email":"test@gmail.com",
-    "org_id": null,
-    "is_org_resp": false,
-    "is_org_admin": false,
+    "email": "test@gmail.com",
+    "is_org_rep": false,
+    "is_org_admin": true
 }
 
-PUT http://localhost:3000/user HTTP/1.1
+### UPDATE USER
+PUT http://localhost:3000/user/e27095d2-5b23-42c5-9986-7e5948b74dc1 HTTP/1.1
 Content-Type: application/json
 
 {
-    "email":"test@gmail.com",
-    "org_id": null,
-    "is_org_resp": false,
-    "is_org_admin": true,
-
+    "email": "test@gmail.com",
+    "is_org_rep": false,
+    "is_org_admin": false
 }
+
+### DELETE USER
+DELETE http://localhost:3000/user/fa2acf71-c203-4b48-b749-28801975d01d HTTP/1.1
+Content-Type: application/json
+
 
 
 # {
 #   "name": "New Item",
 #   "price": 111,
 #   "categoryId": 1
+# }
+
+# {
+#     "email":"test@gmail.com",
+#     "org_id": null,
+#     "is_org_resp": false,
+#     "is_org_admin": true,
+#     "is_org_resp": "false",
+#     "is_org_admin": "true",
 # }
