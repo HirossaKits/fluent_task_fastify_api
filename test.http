@@ -44,6 +44,17 @@ Content-Type: application/json
     "is_org_admin": false,
 }
 
+PUT http://localhost:3000/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "org_id": null,
+    "is_org_resp": false,
+    "is_org_admin": true,
+
+}
+
 
 # {
 #   "name": "New Item",
