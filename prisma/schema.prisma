@@ -38,11 +38,11 @@ model User {
 }
 
 model Profile {
-  user_id    String @id
-  user       User   @relation(fields: [user_id], references: [user_id])
+  user_id    String  @id
+  user       User    @relation(fields: [user_id], references: [user_id])
   first_name String
   last_name  String
-  avatar_img String
+  avatar_img String?
   comment    String
 }
 
