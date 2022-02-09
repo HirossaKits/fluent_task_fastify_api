@@ -63,3 +63,9 @@ test/types/index.js
 
 # compiled app
 dist
+
+# prisma migration
+prisma/migrations
+
+# uploaded image
+public/avatar_img

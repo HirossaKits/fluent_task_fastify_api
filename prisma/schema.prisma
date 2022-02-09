@@ -24,26 +24,21 @@ model Organization {
 model User {
   user_id        String        @id @default(uuid())
   email          String        @unique
+  password       String
+  first_name     String
+  last_name      String
+  avatar_img     String        @default("")
+  comment        String        @default("")
   org_id         String?
   org            Organization? @relation(fields: [org_id], references: [org_id])
   is_org_rep     Boolean       @default(false)
   is_org_admin   Boolean       @default(false)
   assigned_task  Task[]        @relation("task_assigned")
   posted_task    Task[]        @relation("task_author")
-  profile        Profile?
   resp_project   Project[]     @relation("project_resp")
   member_project Project[]     @relation("project_member")
   created_at     DateTime      @default(now())
   update_at      DateTime      @updatedAt
-}
-
-model Profile {
-  user_id    String  @id
-  user       User    @relation(fields: [user_id], references: [user_id])
-  first_name String
-  last_name  String
-  avatar_img String?
-  comment    String
 }
 
 model Project {
