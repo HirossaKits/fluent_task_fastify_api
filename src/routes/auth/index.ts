@@ -1,4 +1,4 @@
-import { signup } from '../../controller/authController';
+import { signup, signin } from '../../controller/authController';
 
 const User = {
   user_id: { type: 'string' },
@@ -29,8 +29,25 @@ const signupOpts = {
   handler: signup,
 };
 
+const signinOpts = {
+  schema: {
+    body: {
+      type: 'object',
+      properties: {
+        email: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+    response: {
+      200: { login_user: User, token: { type: 'string' } },
+    },
+  },
+  handler: signin,
+};
+
 const auth = async (fastify: any, options: any, done: any) => {
   fastify.post('/signup', signupOpts);
+  fastify.post('/signin', signinOpts);
 };
 
 export default auth;

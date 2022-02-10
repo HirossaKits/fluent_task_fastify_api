@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-require('dotenv').config();
+// require('dotenv').config();
 
 export default fp(async (fastify, opts) => {
   fastify.register(require('fastify-jwt'), {

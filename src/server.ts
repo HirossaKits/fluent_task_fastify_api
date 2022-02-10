@@ -17,7 +17,6 @@ const app = Fastify({
 // Register your application as a normal plugin.
 const appService = require('./app.js');
 app.register(appService);
-app.register(require('fastify-multipart'));
 
 // delay is the number of milliseconds for the graceful close to finish
 const closeListeners = closeWithGrace(
