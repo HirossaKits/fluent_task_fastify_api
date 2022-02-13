@@ -82,3 +82,10 @@
 //   fastify.delete('/taskcategory/:id', deleteProductOpts);
 //   fastify.put('/taskcategory/:id', updateProductOpts);
 // }
+
+const taskcategory = async (fastify: any, options: any, done: any) => {
+  //   fastify.get('/:user_id');
+  //   fastify.put('/:user_id');
+};
+
+export default taskcategory;

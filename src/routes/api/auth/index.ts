@@ -1,15 +1,4 @@
-import { signup, signin } from '../../controller/authController';
-
-const User = {
-  user_id: { type: 'string' },
-  first_name: { type: 'string' },
-  last_name: { type: 'string' },
-  avatar_img: { type: 'string' },
-  comment: { type: 'string' },
-  org_id: { type: 'string' },
-  is_org_rep: { type: 'boolean' },
-  is_org_admin: { type: 'boolean' },
-};
+import { signup, signin } from '../../../controller/authController';
 
 const signupOpts = {
   schema: {
@@ -23,7 +12,7 @@ const signupOpts = {
       },
     },
     response: {
-      200: { login_user: User, token: { type: 'string' } },
+      200: { access: { type: 'string' } },
     },
   },
   handler: signup,
@@ -39,7 +28,7 @@ const signinOpts = {
       },
     },
     response: {
-      200: { login_user: User, token: { type: 'string' } },
+      200: { access: { type: 'string' } },
     },
   },
   handler: signin,

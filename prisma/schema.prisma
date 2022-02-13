@@ -33,12 +33,20 @@ model User {
   org            Organization? @relation(fields: [org_id], references: [org_id])
   is_org_rep     Boolean       @default(false)
   is_org_admin   Boolean       @default(false)
+  settings       Settings?
   assigned_task  Task[]        @relation("task_assigned")
   posted_task    Task[]        @relation("task_author")
   resp_project   Project[]     @relation("project_resp")
   member_project Project[]     @relation("project_member")
   created_at     DateTime      @default(now())
   update_at      DateTime      @updatedAt
+}
+
+model Settings {
+  user_id  String  @id
+  darkmode Boolean @default(false)
+  tooltip  Boolean @default(true)
+  user     User    @relation(fields: [user_id], references: [user_id])
 }
 
 model Project {

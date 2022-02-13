@@ -1,12 +1,10 @@
-import { FastifyPluginAsync } from 'fastify';
-
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
 import {
   getOrganization,
   addOrganization,
   updateOrganization,
   deleteOrganization,
-} from '../../controller/orgController';
+} from '../../../controller/orgController';
 
 // const Organization = {
 //   org_id: { type: 'string' },

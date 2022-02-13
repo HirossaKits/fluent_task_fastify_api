@@ -8,8 +8,8 @@ const hashPassword = (password) => {
   return bcrypt.hashSync(password, salt);
 };
 
-const generateToken = ({ user_id, is_org_rep }): string => {
-  const payload = { user_id, is_org_rep };
+const generateToken = ({ user_id }): string => {
+  const payload = { user_id };
   return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
@@ -19,11 +19,13 @@ export const signup = async (req: any, reply: any) => {
     const user = await prisma.user.create({
       data: req.body,
     });
+    const settings = await prisma.settings.create({
+      data: { user_id: user.user_id },
+    });
     const token = generateToken({
       user_id: user.user_id,
-      is_org_rep: user.is_org_rep,
     });
-    reply.send({ login_user: user, token: token });
+    reply.send({ access: token });
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -31,8 +33,6 @@ export const signup = async (req: any, reply: any) => {
 
 export const signin = async (req: any, reply: any) => {
   try {
-    // const email = req.body.email;
-    // const password = req.body.password;
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({
       where: { email: email },
@@ -40,9 +40,8 @@ export const signin = async (req: any, reply: any) => {
     if (user && user.password && bcrypt.compareSync(password, user.password)) {
       const token = generateToken({
         user_id: user.user_id,
-        is_org_rep: user.is_org_rep,
       });
-      reply.send({ login_user: user, token: token });
+      reply.send({ access: token });
     } else {
       reply.status(500).send('Invalid email or password');
     }

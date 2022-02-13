@@ -1,29 +1,54 @@
-## Usage
+### @name signup
 
-### Press Ctrl + Alt + R
-
-## Auth --------------------------------
-
-### Auth signup
-
-POST http://localhost:3333/auth/signup HTTP/1.1
+POST http://localhost:3333/api/auth/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com",
-    "password": "test",
-    "first_name": "User01",
-    "last_name": "Demo"
+    "email": "test1@gmail.com",
+    "password": "test1",
+    "first_name": "Hirohisa",
+    "last_name": "Kitsuka"
 }
 
-### Auth signin
-POST http://localhost:3333/auth/signin HTTP/1.1
+### @name signin
+POST http://localhost:3333/api/auth/signin HTTP/1.1
 Content-Type: application/json
 
 {
     "email": "test@gmail.com",
     "password": "test"
 }
+
+###
+
+@token = {{signin.response.body.$.access}}
+
+###
+
+### GET USER
+GET http://localhost:3333/user/09ad7539-3098-4588-9fbc-7f488b11268f HTTP/1.1
+Content-Type: application/xml
+Authorization: Bearer {{token}}
+
+
+
+
+### ============= SETTINGS =============
+
+### GET SETTINGS
+
+POST http://localhost:3333/api/settings/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "test"
+}
+
+### ============= USER =============
+
+
+
 
 
 ## ORGANIZATION

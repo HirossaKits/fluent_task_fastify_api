@@ -4,10 +4,13 @@ const prisma = new PrismaClient();
 
 export const getUser = async (req: any, reply: any) => {
   try {
-    const { user_id } = req.params;
+    const { user_id } = await req.jwtVerify();
+    console.log(await req.jwtVerify());
+
     const user = await prisma.user.findUnique({
       where: { user_id: user_id },
     });
+
     reply.send(user);
   } catch (error) {
     reply.status(500).send(error);
