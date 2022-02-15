@@ -1,12 +1,36 @@
-import { test } from 'tap'
-import { build } from '../helper'
+describe('test', () => {
+  const fetch = require('node-fetch');
 
-test('example is loaded', async (t) => {
-  const app = await build(t)
+  let token = '';
 
-  const res = await app.inject({
-    url: '/example'
-  })
+  it('Signin', async () => {
+    const res = await fetch('http://localhost:3333/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'test@gmail.com',
+        password: 'test',
+      }),
+    }).then((res) => res.json());
 
-  t.equal(res.payload, 'this is an example')
-})
+    expect(res.statusCode).toBe(200);
+
+    token = res.access;
+  });
+
+  it('Get user', async () => {
+    const res = await fetch('http://localhost:3333/api/user', {
+      method: 'GET',
+      headers: {
+        'Contetn-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    expect(res.statusCode).toBe(200);
+
+    console.log(res);
+  });
+});

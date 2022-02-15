@@ -26,9 +26,9 @@ Content-Type: application/json
 ###
 
 ### GET USER
-GET http://localhost:3333/user/09ad7539-3098-4588-9fbc-7f488b11268f HTTP/1.1
+GET http://localhost:3333/api/user HTTP/1.1
 Content-Type: application/xml
-Authorization: Bearer {{token}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiODc4NmEwZjktMjQ1Ny00ZGEyLWFhODMtZTRkYzFjNWYyZDdlIiwiaWF0IjoxNjQ0OTM2ODIyfQ.lQCimElTYyOop-0ePIOls6vsSA48v8pvXUagE3mFqOI
 
 
 
