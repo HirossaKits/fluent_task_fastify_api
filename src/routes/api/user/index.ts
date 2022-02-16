@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import * as userSchema from './schema';
+import * as userSchema from '../../../schema/userSchema';
 import * as userController from '../../../controller/userController';
 
 const org = async (fastify: any, options: any, done: any) => {
