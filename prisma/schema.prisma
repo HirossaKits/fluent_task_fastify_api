@@ -15,10 +15,12 @@ generator erd {
 }
 
 model Organization {
-  org_id   String    @id @default(uuid())
-  org_name String
-  org_user User[]
-  project  Project[]
+  org_id     String    @id @default(uuid())
+  org_name   String
+  owner_user String
+  is_private Boolean
+  org_user   User[]
+  project    Project[]
 }
 
 model User {

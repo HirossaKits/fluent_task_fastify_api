@@ -29,6 +29,13 @@ const app: FastifyPluginAsync<AppOptions> = async (
   //   },
   // });
 
+  // fastify.addContentTypeParser(
+  //   'multipart/form-data',
+  //   (request, _payload, done) => {
+  //     done(null, request);
+  //   }
+  // );
+
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins

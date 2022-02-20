@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 export const getSettings = async (req: any, reply: any) => {
   try {
-    const { user_id } = req.body;
+    const { user_id } = req.params;
     const settings = await prisma.settings.findUnique({
       where: {
         user_id: user_id,
@@ -15,14 +15,14 @@ export const getSettings = async (req: any, reply: any) => {
   }
 };
 
-export const updateSettings = async (request: any, reply: any) => {
+export const updateSettings = async (req: any, reply: any) => {
   try {
-    const { user_id } = request.body;
+    const { user_id } = req.params;
     const settings = await prisma.settings.update({
       where: {
         user_id: user_id,
       },
-      data: request.body,
+      data: req.body,
     });
     reply.send(settings);
   } catch (error) {

@@ -5,8 +5,6 @@ const prisma = new PrismaClient();
 export const getUser = async (req: any, reply: any) => {
   try {
     const { user_id } = await req.jwtVerify();
-    console.log(await req.jwtVerify());
-
     const user = await prisma.user.findUnique({
       where: { user_id: user_id },
     });
