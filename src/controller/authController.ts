@@ -19,9 +19,19 @@ export const signup = async (req: any, reply: any) => {
     const user = await prisma.user.create({
       data: req.body,
     });
-    const settings = await prisma.settings.create({
+    await prisma.settings.create({
       data: { user_id: user.user_id },
     });
+    const org = await prisma.organization.create({
+      data: {
+        org_name: 'Private',
+        org_owner: { connect: { user_id: user.user_id } },
+        org_admin: { connect: [{ user_id: user.user_id }] },
+        org_user: { connect: [{ user_id: user.user_id }] },
+        is_private: true,
+      },
+    });
+    await prisma.user.update;
     const token = generateToken({
       user_id: user.user_id,
     });

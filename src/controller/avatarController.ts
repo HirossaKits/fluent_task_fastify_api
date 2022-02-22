@@ -7,7 +7,7 @@ const pump = util.promisify(pipeline);
 
 const prisma = new PrismaClient();
 
-export const updateProfile = async (req: any, reply: any) => {
+export const updateAvatar = async (req: any, reply: any) => {
   try {
     const { user_id } = req.params;
     const data = await req.file();
@@ -37,9 +37,7 @@ export const updateProfile = async (req: any, reply: any) => {
       where: { user_id: user_id },
       data: { avatar_img: avatar_img },
     });
-    reply.send({
-      upload_file: `/public/avatar_img/avator_${user_id}.${ext}?${new Date().toLocaleTimeString()}`,
-    });
+    reply.send(user);
   } catch (error) {
     reply.status(500).send(error);
   }

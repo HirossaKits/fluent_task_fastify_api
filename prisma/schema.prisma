@@ -15,40 +15,43 @@ generator erd {
 }
 
 model Organization {
-  org_id     String    @id @default(uuid())
-  org_name   String
-  owner_user String
-  is_private Boolean
-  org_user   User[]
-  project    Project[]
+  org_id       String    @id @default(uuid())
+  org_name     String
+  is_private   Boolean   @default(true)
+  org_owner_id String?
+  org_owner    User?     @relation(fields: [org_owner_id], references: [user_id])
+  org_admin    User[]    @relation("org_admin_user")
+  org_user     User[]    @relation("org_joined_user")
+  project      Project[]
+
 }
 
 model User {
-  user_id        String        @id @default(uuid())
-  email          String        @unique
+  user_id        String         @id @default(uuid())
+  email          String         @unique
   password       String
   first_name     String
   last_name      String
-  avatar_img     String        @default("")
-  comment        String        @default("")
-  org_id         String?
-  org            Organization? @relation(fields: [org_id], references: [org_id])
-  is_org_rep     Boolean       @default(false)
-  is_org_admin   Boolean       @default(false)
+  avatar_img     String         @default("")
+  comment        String         @default("")
+  own_org        Organization[]
+  admin_org      Organization[] @relation("org_admin_user")
+  joined_org     Organization[] @relation("org_joined_user")
   settings       Settings?
-  assigned_task  Task[]        @relation("task_assigned")
-  posted_task    Task[]        @relation("task_author")
-  resp_project   Project[]     @relation("project_resp")
-  member_project Project[]     @relation("project_member")
-  created_at     DateTime      @default(now())
-  update_at      DateTime      @updatedAt
+  assigned_task  Task[]         @relation("task_assigned")
+  posted_task    Task[]         @relation("task_author")
+  resp_project   Project[]      @relation("project_resp")
+  member_project Project[]      @relation("project_member")
+  created_at     DateTime       @default(now())
+  update_at      DateTime       @updatedAt
 }
 
 model Settings {
-  user_id  String  @id
-  darkmode Boolean @default(false)
-  tooltip  Boolean @default(true)
-  user     User    @relation(fields: [user_id], references: [user_id])
+  user_id      String  @id
+  dark_mode    Boolean @default(false)
+  tooltip      Boolean @default(true)
+  private_mode Boolean @default(true)
+  user         User    @relation(fields: [user_id], references: [user_id])
 }
 
 model Project {
