@@ -9,8 +9,12 @@ export const getOrganization = async (request: any, reply: any) => {
     const { org_id } = request.params;
     const organization = await prisma.organization.findUnique({
       where: { org_id: org_id },
-      include: { User_join: true },
+      include: { org_admin: true, org_user: true },
     });
+    organization.org_admin_id = organization.org_admin.map(
+      (obj) => obj.user_id
+    );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -21,10 +25,13 @@ export const getPrivateOrganization = async (request: any, reply: any) => {
   try {
     const { owner } = request.params;
     const organization = await prisma.organization.findFirst({
-      where: { owner: owner, is_private: true },
-      include: { org_user: true },
+      where: { org_owner_id: owner, is_private: true },
+      include: { org_admin: true, org_user: true },
     });
-    console.log(organization);
+    organization.org_admin_id = organization.org_admin.map(
+      (obj) => obj.user_id
+    );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -36,9 +43,12 @@ export const getPublicOrganization = async (request: any, reply: any) => {
     const { org_id } = request.params;
     const organization = await prisma.organization.findFirst({
       where: { org_id: org_id },
-      include: { org_user: true },
+      include: { org_admin: true, org_user: true },
     });
-    console.log(organization);
+    organization.org_admin_id = organization.org_admin.map(
+      (obj) => obj.user_id
+    );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);

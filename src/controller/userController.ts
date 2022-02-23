@@ -7,8 +7,12 @@ export const getUser = async (req: any, reply: any) => {
     const { user_id } = await req.jwtVerify();
     const user = await prisma.user.findUnique({
       where: { user_id: user_id },
+      include: { joined_org: true },
     });
-
+    user.joined_org = user.joined_org?.filter(
+      (org) => org.is_private === false
+    );
+    console.log(user);
     reply.send(user);
   } catch (error) {
     reply.status(500).send(error);

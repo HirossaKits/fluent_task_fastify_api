@@ -31,7 +31,6 @@ export const signup = async (req: any, reply: any) => {
         is_private: true,
       },
     });
-    await prisma.user.update;
     const token = generateToken({
       user_id: user.user_id,
     });

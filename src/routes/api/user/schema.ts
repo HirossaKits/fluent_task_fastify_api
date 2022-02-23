@@ -1,10 +1,21 @@
 export const User = {
   user_id: { type: 'string' },
+  is_premium: { type: 'boolean' },
   first_name: { type: 'string' },
   last_name: { type: 'string' },
   avatar_img: { type: 'string' },
   comment: { type: 'string' },
-  org_id: { type: 'string' },
+  joined_org: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        org_id: { type: 'string' },
+        org_name: { type: 'string' },
+        is_private: { type: 'boolean' },
+      },
+    },
+  },
 };
 
 export const getUser = {

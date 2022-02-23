@@ -1,6 +1,7 @@
 const Settings = {
-  darkmode: { type: 'boolean' },
+  dark_mode: { type: 'boolean' },
   tooltip: { type: 'boolean' },
+  private_mode: { type: 'boolean' },
 };
 
 export const getSettings = {

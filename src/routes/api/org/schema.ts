@@ -4,7 +4,11 @@ const Organization = {
   org_id: { type: 'string' },
   org_name: { type: 'string' },
   org_owner_id: { type: 'string' },
-  org_owner: { type: 'string' },
+  // org_owner: { type: 'string' },
+  org_admin_id: {
+    type: 'array',
+    items: { type: 'string' },
+  },
   org_user: {
     type: 'array',
     items: { type: 'object', properties: User },
