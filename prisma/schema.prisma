@@ -61,10 +61,8 @@ model Project {
   project_name  String
   org_id        String
   org           Organization   @relation(fields: [org_id], references: [org_id])
-  resp_id       String
-  resp          User           @relation(name: "project_resp", fields: [resp_id], references: [user_id])
-  member_id     String
-  member        User[]         @relation(name: "project_member", fields: [member_id], references: [user_id])
+  resp          User[]         @relation("project_resp")
+  member        User[]         @relation("project_member")
   description   String
   startdate     String
   enddate       String
