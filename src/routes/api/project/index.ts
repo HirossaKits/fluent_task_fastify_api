@@ -7,6 +7,17 @@ const project = async (fastify: any, option: any, done: any) => {
     { schema: schema.getProjectsFromOrg },
     projectController.getProjectFromOrg
   );
+  fastify.post(
+    '/',
+    { schema: schema.addProject },
+    projectController.addProject
+  );
+
+  fastify.put(
+    '/:project_id',
+    { schema: schema.updateProject },
+    projectController.updateProject
+  );
   done();
 };
 

@@ -39,3 +39,18 @@ export const getProjectsFromOrg = {
     200: Projects,
   },
 };
+
+export const addProject = {
+  response: {
+    200: Projects,
+  },
+};
+
+export const updateProject = {
+  params: {
+    project_id: { type: 'string' },
+  },
+  response: {
+    200: Projects,
+  },
+};

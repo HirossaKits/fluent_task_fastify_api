@@ -4,12 +4,11 @@ const prisma = new PrismaClient();
 export const getProjectFromOrg = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
-    const project = await prisma.project.findMany({
+    const projects = await prisma.project.findMany({
       where: { org_id: org_id },
       include: { resp: true, member: true, task_category: true },
     });
-    console.log(project);
-    reply.send(project);
+    reply.send(projects);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -28,13 +27,28 @@ export const addProject = async (req: any, reply: any) => {
 export const updateProject = async (req: any, reply: any) => {
   try {
     const { project_id } = req.params;
-    const organization = await prisma.organization.update({
+    await prisma.project.update({
       where: {
         project_id: project_id,
       },
-      data: req.body,
+      data: {
+        project_name: req.body.project_name,
+        description: req.body.description,
+        startdate: req.body.startdate,
+        enddate: req.body.enddate,
+        resp: {
+          set: req.body.resp_id.map((user_id) => ({ user_id: user_id })),
+        },
+        member: {
+          set: req.body.member_id.map((user_id) => ({ user_id: user_id })),
+        },
+      },
     });
-    reply.send(organization);
+    const projects = await prisma.project.findMany({
+      where: { org_id: req.body.org_id },
+      include: { resp: true, member: true, task_category: true },
+    });
+    reply.send(projects);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -43,12 +57,12 @@ export const updateProject = async (req: any, reply: any) => {
 export const deleteOrganization = async (req: any, reply: any) => {
   try {
     const { project_id } = req.params;
-    const organization = await prisma.organization.delete({
+    const project = await prisma.organization.delete({
       where: {
         org_id: project_id,
       },
     });
-    reply.send(organization);
+    reply.send(project);
   } catch (error) {
     reply.status(500).send(error);
   }
