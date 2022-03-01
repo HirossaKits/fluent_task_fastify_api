@@ -32,7 +32,7 @@ const Projects = {
 };
 
 export const getProjectsFromOrg = {
-  param: {
+  params: {
     org_id: { type: 'string' },
   },
   response: {
