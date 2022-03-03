@@ -18,6 +18,11 @@ const project = async (fastify: any, option: any, done: any) => {
     { schema: schema.updateProject },
     projectController.updateProject
   );
+  fastify.delete(
+    '/:project_id',
+    { schema: schema.deleteProject },
+    projectController.deleteProject
+  );
   done();
 };
 

@@ -29,7 +29,7 @@ export const getTasks = {
 export const addTask = {};
 
 export const updateTask = {
-  params: { task_id: 'string' },
+  params: { task_id: { type: 'string' } },
 };
 
 export const deleteTask = {

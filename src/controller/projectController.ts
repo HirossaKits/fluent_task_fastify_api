@@ -7,6 +7,9 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
     const projects = await prisma.project.findMany({
       where: { org_id: org_id },
       include: { resp: true, member: true, task_category: true },
+      orderBy: {
+        created_at: 'asc',
+      },
     });
     reply.send(projects);
   } catch (error) {
@@ -16,12 +19,18 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
 
 export const addProject = async (req: any, reply: any) => {
   try {
-    await prisma.project.create({
+    const project = await prisma.project.create({
       data: {
         project_name: req.body.project_name,
+        org_id: req.body.org_id,
         description: req.body.description,
         startdate: req.body.startdate,
         enddate: req.body.enddate,
+      },
+    });
+    await prisma.project.update({
+      where: { project_id: project.project_id },
+      data: {
         resp: {
           connect: req.body.resp_id.map((user_id) => ({ user_id: user_id })),
         },
@@ -33,6 +42,9 @@ export const addProject = async (req: any, reply: any) => {
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
       include: { resp: true, member: true, task_category: true },
+      orderBy: {
+        created_at: 'asc',
+      },
     });
     reply.send(projects);
   } catch (error) {
@@ -63,6 +75,9 @@ export const updateProject = async (req: any, reply: any) => {
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
       include: { resp: true, member: true, task_category: true },
+      orderBy: {
+        created_at: 'asc',
+      },
     });
     reply.send(projects);
   } catch (error) {
@@ -70,15 +85,22 @@ export const updateProject = async (req: any, reply: any) => {
   }
 };
 
-export const deleteOrganization = async (req: any, reply: any) => {
+export const deleteProject = async (req: any, reply: any) => {
   try {
     const { project_id } = req.params;
-    const project = await prisma.organization.delete({
+    const project = await prisma.project.delete({
       where: {
-        org_id: project_id,
+        project_id: project_id,
       },
     });
-    reply.send(project);
+    const projects = await prisma.project.findMany({
+      where: { org_id: project.org_id },
+      include: { resp: true, member: true, task_category: true },
+      orderBy: {
+        created_at: 'asc',
+      },
+    });
+    reply.send(projects);
   } catch (error) {
     reply.status(500).send(error);
   }

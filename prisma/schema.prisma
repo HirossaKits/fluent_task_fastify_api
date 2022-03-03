@@ -66,6 +66,7 @@ model Project {
   description   String
   startdate     String
   enddate       String
+  task          Task[]
   task_category TaskCategory[]
   created_at    DateTime       @default(now())
   update_at     DateTime       @updatedAt
@@ -75,6 +76,7 @@ model Task {
   task_id             String       @id @default(uuid())
   task_name           String
   project_id          String
+  project             Project      @relation(fields: [project_id], references: [project_id])
   task_category_id    Int
   task_category       TaskCategory @relation(fields: [task_category_id], references: [task_category_id])
   assigned_id         String

@@ -54,3 +54,12 @@ export const updateProject = {
     200: Projects,
   },
 };
+
+export const deleteProject = {
+  params: {
+    project_id: { type: 'string' },
+  },
+  response: {
+    200: Projects,
+  },
+};
