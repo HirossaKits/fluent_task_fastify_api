@@ -33,5 +33,5 @@ export const updateTask = {
 };
 
 export const deleteTask = {
-  params: { task_id: { type: 'string' } },
+  // params: { task_id: { type: 'string' } },
 };

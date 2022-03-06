@@ -73,32 +73,32 @@ model Project {
 }
 
 model Task {
-  task_id             String       @id @default(uuid())
+  task_id             String        @id @default(uuid())
   task_name           String
   project_id          String
-  project             Project      @relation(fields: [project_id], references: [project_id])
-  task_category_id    Int
-  task_category       TaskCategory @relation(fields: [task_category_id], references: [task_category_id])
-  assigned_id         String
-  assigned            User         @relation(name: "task_assigned", fields: [assigned_id], references: [user_id])
+  project             Project       @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  task_category_id    Int?
+  task_category       TaskCategory? @relation(fields: [task_category_id], references: [task_category_id])
+  assigned_id         String?
+  assigned            User?         @relation(name: "task_assigned", fields: [assigned_id], references: [user_id])
   author_id           String
-  author              User         @relation(name: "task_author", fields: [author_id], references: [user_id])
+  author              User          @relation(name: "task_author", fields: [author_id], references: [user_id])
   description         String
   status              String
-  estimate_manhour    Int
-  actual_manhour      Int
-  scheduled_startdate String
-  scheduled_enddate   String
-  actual_startdate    String
-  actual_enddate      String
-  created_at          DateTime     @default(now())
-  update_at           DateTime     @updatedAt
+  estimate_manhour    Int?
+  actual_manhour      Int?
+  scheduled_startdate String?
+  scheduled_enddate   String?
+  actual_startdate    String?
+  actual_enddate      String?
+  created_at          DateTime      @default(now())
+  update_at           DateTime      @updatedAt
 }
 
 model TaskCategory {
   task_category_id   Int     @id @default(autoincrement())
   task_category_name String
   project_id         String
-  project            Project @relation(fields: [project_id], references: [project_id])
+  project            Project @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
   Task               Task[]
 }

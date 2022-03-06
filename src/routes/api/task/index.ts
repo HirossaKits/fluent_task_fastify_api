@@ -3,7 +3,7 @@ import * as taskController from '../../../controller/taskController';
 
 const task = async (fastify: any, option: any, done: any) => {
   fastify.get(
-    '/:project_id',
+    '/project/:project_id',
     { schema: schema.getTasks },
     taskController.getTasks
   );
@@ -14,10 +14,16 @@ const task = async (fastify: any, option: any, done: any) => {
     taskController.updateTask
   );
   fastify.delete(
-    '/:task_id',
+    '/project/:project_id',
     { schema: schema.deleteTask },
     taskController.deleteTask
   );
+  // fastify.delete(
+  //   '/:task_id',
+  //   { schema: schema.deleteTask },
+  //   taskController.deleteTask
+  // );
+
   done();
 };
 
