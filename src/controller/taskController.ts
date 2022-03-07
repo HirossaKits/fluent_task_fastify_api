@@ -8,6 +8,7 @@ export const getTasks = async (req: any, reply: any) => {
     const tasks = await prisma.task.findMany({
       where: { project_id: project_id },
       include: { assigned: { select: { first_name: true, last_name: true } } },
+      orderBy: { created_at: 'asc' },
     });
     console.log(tasks);
     reply.send(tasks);
@@ -25,6 +26,7 @@ export const addTask = async (req: any, reply: any) => {
     const tasks = await prisma.task.findMany({
       where: { project_id: req.body.project_id },
       include: { assigned: { select: { first_name: true, last_name: true } } },
+      orderBy: { created_at: 'asc' },
     });
 
     reply.send(tasks);
@@ -40,6 +42,7 @@ export const updateTask = async (req: any, reply: any) => {
     const tasks = await prisma.task.findMany({
       where: { project_id: req.body.project_id },
       include: { assigned: { select: { first_name: true, last_name: true } } },
+      orderBy: { created_at: 'asc' },
     });
     reply.send(tasks);
   } catch (error) {
@@ -49,11 +52,10 @@ export const updateTask = async (req: any, reply: any) => {
 
 export const deleteTask = async (req: any, reply: any) => {
   try {
-    console.log(req.body);
     const { project_id } = req.params;
 
-    Promise.all(
-      req.body.task_id?.forEach(async (task_id) => {
+    await Promise.all(
+      req.body.task_id.map(async (task_id) => {
         await prisma.task.delete({ where: { task_id: task_id } });
       })
     );
@@ -61,7 +63,9 @@ export const deleteTask = async (req: any, reply: any) => {
     const tasks = await prisma.task.findMany({
       where: { project_id: project_id },
       include: { assigned: { select: { first_name: true, last_name: true } } },
+      orderBy: { created_at: 'asc' },
     });
+
     reply.send(tasks);
   } catch (error) {
     reply.status(500).send(error);
