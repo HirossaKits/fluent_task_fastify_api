@@ -1,5 +1,4 @@
 const { PrismaClient } = require('@prisma/client');
-
 const prisma = new PrismaClient();
 
 export const getUser = async (req: any, reply: any) => {
@@ -12,7 +11,6 @@ export const getUser = async (req: any, reply: any) => {
     // user.joined_org = user.joined_org?.filter(
     //   (org) => org.is_private === false
     // );
-    console.log(user);
     reply.send(user);
   } catch (error) {
     reply.status(500).send(error);

@@ -10,7 +10,6 @@ export const getTasks = async (req: any, reply: any) => {
       include: { assigned: { select: { first_name: true, last_name: true } } },
       orderBy: { created_at: 'asc' },
     });
-    console.log(tasks);
     reply.send(tasks);
   } catch (error) {
     reply.status(500).send(error);
@@ -19,7 +18,6 @@ export const getTasks = async (req: any, reply: any) => {
 
 export const addTask = async (req: any, reply: any) => {
   try {
-    console.log(req.body);
     await prisma.task.create({
       data: req.body,
     });

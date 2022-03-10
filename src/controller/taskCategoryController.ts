@@ -4,10 +4,11 @@ const prisma = new PrismaClient();
 export const getTaskCategory = async (req, reply) => {
   try {
     const { project_id } = req.params;
-    const TaskCategory = await prisma.TaskCategory.findMany({
-      include: { category: true },
+    console.log('debug', project_id);
+    const taskcategory = await prisma.TaskCategory.findMany({
+      where: { project_id: project_id },
     });
-    reply.send(TaskCategory);
+    reply.send(taskcategory);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -15,10 +16,10 @@ export const getTaskCategory = async (req, reply) => {
 
 export const addTaskCategory = async (req, reply) => {
   try {
-    const TaskCategory = await prisma.TaskCategory.create({
+    const taskcategory = await prisma.taskcategory.create({
       data: req.body,
     });
-    reply.status(201).send(TaskCategory);
+    reply.status(201).send(taskcategory);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -27,7 +28,7 @@ export const addTaskCategory = async (req, reply) => {
 export const deleteTaskCategory = async (req, reply) => {
   const { id } = req.params;
   try {
-    const deleteTaskCategory = await prisma.TaskCategory.delete({
+    const deleteTaskCategory = await prisma.taskcategory.delete({
       where: {
         id: id,
       },
@@ -41,7 +42,7 @@ export const deleteTaskCategory = async (req, reply) => {
 export const updateTaskCategory = async (req, reply) => {
   try {
     const { id } = req.params;
-    const TaskCategory = await prisma.TaskCategory.update({
+    const TaskCategory = await prisma.taskcategory.update({
       where: {
         id: id,
       },

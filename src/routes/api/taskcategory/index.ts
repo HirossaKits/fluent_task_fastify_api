@@ -3,7 +3,7 @@ import * as settingsController from '../../../controller/taskCategoryController'
 
 const taskcategory = async (fastify: any, options: any, done: any) => {
   fastify.get(
-    'project/:project_id',
+    '/project/:project_id',
     { schema: schema.getTaskCategory },
     settingsController.getTaskCategory
   );
