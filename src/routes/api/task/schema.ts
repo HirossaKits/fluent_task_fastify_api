@@ -26,7 +26,15 @@ export const getTasks = {
   },
 };
 
-export const addTask = {};
+export const addTask = {
+  body: {
+    type: 'object',
+    properties: {
+      task_category_name: { type: 'string' },
+      project_id: { type: 'string' },
+    },
+  },
+};
 
 export const updateTask = {
   params: { task_id: { type: 'string' } },

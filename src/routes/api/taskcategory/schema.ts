@@ -30,7 +30,7 @@ export const addTaskCategory = {
 
 export const updateTaskCategory = {
   params: {
-    task_category_id: { type: 'string' },
+    task_category_id: { type: 'number' },
   },
   body: {
     type: 'object',
@@ -39,15 +39,15 @@ export const updateTaskCategory = {
     },
   },
   response: {
-    200: TaskCategory,
+    200: { type: 'array', items: TaskCategory },
   },
 };
 
 export const deleteTaskCategory = {
   params: {
-    task_category_id: { type: 'string' },
+    task_category_id: { type: 'number' },
   },
   response: {
-    200: TaskCategory,
+    200: { type: 'array', items: TaskCategory },
   },
 };

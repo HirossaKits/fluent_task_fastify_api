@@ -4,11 +4,10 @@ const prisma = new PrismaClient();
 export const getTaskCategory = async (req, reply) => {
   try {
     const { project_id } = req.params;
-    console.log('debug', project_id);
-    const taskcategory = await prisma.TaskCategory.findMany({
+    const taskCategory = await prisma.TaskCategory.findMany({
       where: { project_id: project_id },
     });
-    reply.send(taskcategory);
+    reply.send(taskCategory);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -16,24 +15,13 @@ export const getTaskCategory = async (req, reply) => {
 
 export const addTaskCategory = async (req, reply) => {
   try {
-    const taskcategory = await prisma.taskcategory.create({
+    const taskCategory = await prisma.TaskCategory.create({
       data: req.body,
     });
-    reply.status(201).send(taskcategory);
-  } catch (error) {
-    reply.status(500).send(error);
-  }
-};
-
-export const deleteTaskCategory = async (req, reply) => {
-  const { id } = req.params;
-  try {
-    const deleteTaskCategory = await prisma.taskcategory.delete({
-      where: {
-        id: id,
-      },
+    const taskCategories = await prisma.TaskCategory.findMany({
+      where: { project_id: taskCategory.project_id },
     });
-    reply.send(deleteTaskCategory);
+    reply.status(201).send(taskCategories);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -41,15 +29,37 @@ export const deleteTaskCategory = async (req, reply) => {
 
 export const updateTaskCategory = async (req, reply) => {
   try {
-    const { id } = req.params;
-    const TaskCategory = await prisma.taskcategory.update({
+    console.log(req.body);
+
+    const { task_category_id } = req.params;
+    const taskCategory = await prisma.TaskCategory.update({
       where: {
-        id: id,
+        task_category_id: task_category_id,
       },
       data: req.body,
-      include: { category: true },
     });
-    reply.send(TaskCategory);
+    const taskCategories = await prisma.TaskCategory.findMany({
+      where: { project_id: taskCategory.project_id },
+    });
+    reply.send(taskCategories);
+  } catch (error) {
+    reply.status(500).send(error);
+  }
+};
+
+export const deleteTaskCategory = async (req, reply) => {
+  const { task_category_id } = req.params;
+  try {
+    const taskCategory = await prisma.TaskCategory.delete({
+      where: {
+        task_category_id: task_category_id,
+      },
+    });
+    const taskCategories = await prisma.TaskCategory.findMany({
+      where: { project_id: taskCategory.project_id },
+    });
+    console.log(taskCategories);
+    reply.send(taskCategories);
   } catch (error) {
     reply.status(500).send(error);
   }

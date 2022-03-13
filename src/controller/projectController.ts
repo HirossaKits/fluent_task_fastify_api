@@ -6,7 +6,7 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
     const { org_id } = req.params;
     const projects = await prisma.project.findMany({
       where: { org_id: org_id },
-      include: { resp: true, member: true, task_category: true },
+      include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',
       },
@@ -41,7 +41,7 @@ export const addProject = async (req: any, reply: any) => {
     });
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
-      include: { resp: true, member: true, task_category: true },
+      include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',
       },
@@ -74,7 +74,7 @@ export const updateProject = async (req: any, reply: any) => {
     });
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
-      include: { resp: true, member: true, task_category: true },
+      include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',
       },
@@ -95,7 +95,7 @@ export const deleteProject = async (req: any, reply: any) => {
     });
     const projects = await prisma.project.findMany({
       where: { org_id: project.org_id },
-      include: { resp: true, member: true, task_category: true },
+      include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',
       },

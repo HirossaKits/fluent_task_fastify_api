@@ -20,10 +20,6 @@ const Project = {
   enddate: { type: 'string' },
   resp: { type: 'array', items: { type: 'object', properties: User } },
   member: { type: 'array', items: { type: 'object', properties: User } },
-  task_category: {
-    type: 'array',
-    items: { type: 'object', properties: TaskCategory },
-  },
 };
 
 const Projects = {
