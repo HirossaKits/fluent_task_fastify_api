@@ -11,18 +11,18 @@ const task = async (fastify: any, option: any, done: any) => {
   fastify.put(
     '/:task_id',
     { schema: schema.updateTask },
-    taskController.updateTask
+    taskController.updateTaskStatus
+  );
+  fastify.put(
+    '/status/:task_id',
+    { schema: schema.updateTaskStatus },
+    taskController.deleteTask
   );
   fastify.delete(
     '/project/:project_id',
     { schema: schema.deleteTask },
     taskController.deleteTask
   );
-  // fastify.delete(
-  //   '/:task_id',
-  //   { schema: schema.deleteTask },
-  //   taskController.deleteTask
-  // );
 
   done();
 };

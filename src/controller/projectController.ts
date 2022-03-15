@@ -11,7 +11,13 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
         created_at: 'asc',
       },
     });
-    reply.send(projects);
+
+    const shapedProjects = projects?.map((proj) => {
+      proj.resp_id = proj.resp?.map((user) => user.user_id);
+      proj.member_id = proj.member?.map((user) => user.user_id);
+      return proj;
+    });
+    reply.send(shapedProjects);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -39,6 +45,7 @@ export const addProject = async (req: any, reply: any) => {
         },
       },
     });
+
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
       include: { resp: true, member: true },
@@ -46,7 +53,13 @@ export const addProject = async (req: any, reply: any) => {
         created_at: 'asc',
       },
     });
-    reply.send(projects);
+
+    const shapedProjects = projects?.map((proj) => {
+      proj.resp_id = proj.resp?.map((user) => user.user_id);
+      proj.member_id = proj.member?.map((user) => user.user_id);
+      return proj;
+    });
+    reply.send(shapedProjects);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -72,6 +85,7 @@ export const updateProject = async (req: any, reply: any) => {
         },
       },
     });
+
     const projects = await prisma.project.findMany({
       where: { org_id: req.body.org_id },
       include: { resp: true, member: true },
@@ -79,7 +93,14 @@ export const updateProject = async (req: any, reply: any) => {
         created_at: 'asc',
       },
     });
-    reply.send(projects);
+
+    const shapedProjects = projects?.map((proj) => {
+      proj.resp_id = proj.resp?.map((user) => user.user_id);
+      proj.member_id = proj.member?.map((user) => user.user_id);
+      return proj;
+    });
+
+    reply.send(shapedProjects);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -100,7 +121,14 @@ export const deleteProject = async (req: any, reply: any) => {
         created_at: 'asc',
       },
     });
-    reply.send(projects);
+
+    const shapedProjects = projects?.map((proj) => {
+      proj.resp_id = proj.resp?.map((user) => user.user_id);
+      proj.member_id = proj.member?.map((user) => user.user_id);
+      return proj;
+    });
+
+    reply.send(shapedProjects);
   } catch (error) {
     reply.status(500).send(error);
   }

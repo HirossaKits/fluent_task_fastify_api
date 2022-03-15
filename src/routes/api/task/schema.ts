@@ -40,6 +40,10 @@ export const updateTask = {
   params: { task_id: { type: 'string' } },
 };
 
+export const updateTaskStatus = {
+  params: { task_id: { type: 'string' } },
+};
+
 export const deleteTask = {
   params: { task_id: { type: 'string' } },
 };

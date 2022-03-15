@@ -18,6 +18,8 @@ const Project = {
   description: { type: 'string' },
   startdate: { type: 'string' },
   enddate: { type: 'string' },
+  resp_id: { type: 'array', items: { type: 'string' } },
+  member_id: { type: 'array', items: { type: 'string' } },
   resp: { type: 'array', items: { type: 'object', properties: User } },
   member: { type: 'array', items: { type: 'object', properties: User } },
 };
