@@ -23,7 +23,7 @@ model Organization {
   org_admin    User[]    @relation("org_admin_user")
   org_user     User[]    @relation("org_joined_user")
   project      Project[]
-
+  invite       Invite[]
 }
 
 model User {
@@ -43,6 +43,7 @@ model User {
   posted_task    Task[]         @relation("task_author")
   resp_project   Project[]      @relation("project_resp")
   member_project Project[]      @relation("project_member")
+  invited        Invite[]
   created_at     DateTime       @default(now())
   update_at      DateTime       @updatedAt
 }
@@ -101,4 +102,13 @@ model TaskCategory {
   project_id         String
   project            Project @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
   Task               Task[]
+}
+
+model Invite {
+  invite_id String       @id @default(uuid())
+  org_id    String
+  org       Organization @relation(fields: [org_id], references: [org_id])
+  user_id   String
+  user      User         @relation(fields: [user_id], references: [user_id])
+  validated Boolean      @default(false)
 }

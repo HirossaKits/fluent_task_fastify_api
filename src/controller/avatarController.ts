@@ -36,6 +36,7 @@ export const updateAvatar = async (req: any, reply: any) => {
     const user = await prisma.user.update({
       where: { user_id: user_id },
       data: { avatar_img: avatar_img },
+      include: { joined_org: true },
     });
     reply.send(user);
   } catch (error) {

@@ -8,9 +8,6 @@ export const getUser = async (req: any, reply: any) => {
       where: { user_id: user_id },
       include: { joined_org: true },
     });
-    // user.joined_org = user.joined_org?.filter(
-    //   (org) => org.is_private === false
-    // );
     reply.send(user);
   } catch (error) {
     reply.status(500).send(error);
@@ -21,6 +18,7 @@ export const addUser = async (req: any, reply: any) => {
   try {
     const user = await prisma.user.create({
       data: req.body,
+      include: { joined_org: true },
     });
     reply.status(201).send(user);
   } catch (error) {
@@ -33,6 +31,7 @@ export const updateUser = async (req: any, reply: any) => {
     const { user_id } = req.params;
     const user = await prisma.user.update({
       where: { user_id: user_id },
+      include: { joined_org: true },
       data: req.body,
     });
     reply.send(user);
