@@ -6,6 +6,7 @@ export const getTaskCategory = async (req, reply) => {
     const { project_id } = req.params;
     const taskCategory = await prisma.TaskCategory.findMany({
       where: { project_id: project_id },
+      orderBy: { task_category_id: 'asc' },
     });
     reply.send(taskCategory);
   } catch (error) {
@@ -20,6 +21,7 @@ export const addTaskCategory = async (req, reply) => {
     });
     const taskCategories = await prisma.TaskCategory.findMany({
       where: { project_id: taskCategory.project_id },
+      orderBy: { task_category_id: 'asc' },
     });
     reply.status(201).send(taskCategories);
   } catch (error) {
@@ -29,17 +31,14 @@ export const addTaskCategory = async (req, reply) => {
 
 export const updateTaskCategory = async (req, reply) => {
   try {
-    console.log(req.body);
-
     const { task_category_id } = req.params;
     const taskCategory = await prisma.TaskCategory.update({
-      where: {
-        task_category_id: task_category_id,
-      },
+      where: { task_category_id: task_category_id },
       data: req.body,
     });
     const taskCategories = await prisma.TaskCategory.findMany({
       where: { project_id: taskCategory.project_id },
+      orderBy: { task_category_id: 'asc' },
     });
     reply.send(taskCategories);
   } catch (error) {
@@ -51,12 +50,11 @@ export const deleteTaskCategory = async (req, reply) => {
   const { task_category_id } = req.params;
   try {
     const taskCategory = await prisma.TaskCategory.delete({
-      where: {
-        task_category_id: task_category_id,
-      },
+      where: { task_category_id: task_category_id },
     });
     const taskCategories = await prisma.TaskCategory.findMany({
       where: { project_id: taskCategory.project_id },
+      orderBy: { task_category_id: 'asc' },
     });
     console.log(taskCategories);
     reply.send(taskCategories);

@@ -8,7 +8,7 @@ export const getOrganization = async (req: any, reply: any) => {
       where: { org_id: org_id },
       include: { org_admin: true, org_user: true },
     });
-    organization.org_admin_id = organization.org_admin.map(
+    organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
     delete organization.org_admin;
@@ -25,7 +25,7 @@ export const getPrivateOrganization = async (req: any, reply: any) => {
       where: { org_owner_id: owner, is_private: true },
       include: { org_admin: true, org_user: true },
     });
-    organization.org_admin_id = organization.org_admin.map(
+    organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
     delete organization.org_admin;
@@ -42,7 +42,7 @@ export const getPublicOrganization = async (req: any, reply: any) => {
       where: { org_id: org_id },
       include: { org_admin: true, org_user: true },
     });
-    organization.org_admin_id = organization.org_admin.map(
+    organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
     delete organization.org_admin;
@@ -56,7 +56,11 @@ export const addOrganization = async (req: any, reply: any) => {
   try {
     const organization = await prisma.organization.create({
       data: req.body,
+      include: { org_admin: true, org_user: true },
     });
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
     reply.status(201).send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -67,11 +71,13 @@ export const updateOrganization = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
     const organization = await prisma.organization.update({
-      where: {
-        org_id: org_id,
-      },
+      where: { org_id: org_id },
       data: req.body,
+      include: { org_admin: true, org_user: true },
     });
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -82,10 +88,12 @@ export const deleteOrganization = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
     const organization = await prisma.organization.delete({
-      where: {
-        org_id: org_id,
-      },
+      where: { org_id: org_id },
+      include: { org_admin: true, org_user: true },
     });
+    organization.org_admin_id = organization.org_admin.map(
+      (obj) => obj.user_id
+    );
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
