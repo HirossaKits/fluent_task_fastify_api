@@ -1,4 +1,4 @@
-# docker-compose up する前にvolumeを作成すること
+# docker-compose up する前にvolumeを作成する
 # docker volume create postgres_volume
 
 version: '3'
@@ -8,9 +8,9 @@ services:
     image: postgres:13.4
     container_name: fluent_task
     expose:
-      - "5433"
+      - '5433'
     ports:
-      - "5433:5433"
+      - '5433:5433'
     volumes:
       - postgres_volume:/var/lib/postgresql/data
     command: -p 5433
@@ -24,10 +24,9 @@ services:
 volumes:
   postgres_volume:
     external: true
-
-## pgadmin4 を使用の場合は下記を使用
-## docker-compose up する前にvolumeを作成すること
-## docker volume create pgadmin4_volume
+# pgadmin4 を使用の場合は下記を使用
+# docker-compose up する前にvolumeを作成する
+# docker volume create pgadmin4_volume
 
 # version: '3'
 

@@ -51,9 +51,13 @@ export const updateTask = async (req: any, reply: any) => {
 export const updateTaskStatus = async (req: any, reply: any) => {
   try {
     const { task_id } = req.params;
-    await prisma.task.update({ where: { task_id: task_id }, data: req.body });
+    console.log(req.body);
+    const task = await prisma.task.update({
+      where: { task_id: task_id },
+      data: req.body,
+    });
     const tasks = await prisma.task.findMany({
-      where: { project_id: req.body.project_id },
+      where: { project_id: task.project_id },
       include: { assigned: { select: { first_name: true, last_name: true } } },
       orderBy: { created_at: 'asc' },
     });

@@ -1,7 +1,11 @@
 const Invite = {
-  invite_org_id: { type: 'string' },
-  invited_user_id: { type: 'string' },
-  validated: { type: 'boolean' },
+  invite_id: { type: 'string' },
+  org_name: { type: 'string' },
+};
+
+const Invites = {
+  type: 'array',
+  items: { type: 'object', properties: Invite },
 };
 
 export const getInvite = {
@@ -9,7 +13,7 @@ export const getInvite = {
     user_id: { type: 'string' },
   },
   response: {
-    200: { type: 'array', items: Invite },
+    200: Invites,
   },
 };
 
@@ -29,7 +33,10 @@ export const updateInvite = {
   },
   body: {
     type: 'object',
-    properties: { validated: { type: 'boolean' } },
+    properties: {
+      accept: { type: 'boolean' },
+      reject: { type: 'boolean' },
+    },
   },
   response: {
     200: Invite,

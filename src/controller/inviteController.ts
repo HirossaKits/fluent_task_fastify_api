@@ -1,13 +1,21 @@
+import org from '../routes/api/org';
+
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 export const getInvite = async (req: any, reply: any) => {
   const { user_id } = req.params;
   try {
-    const invite = await prisma.organization.findMany({
-      where: { user_id: user_id },
+    const invites = await prisma.invite.findMany({
+      where: { user_id: user_id, accepted: false, rejected: false },
+      include: { org: true },
     });
-    reply.send(invite);
+    const shapedInvites = invites.map((invite) => ({
+      invite_id: invite.invite_id,
+      org_name: invite.org.org_name,
+    }));
+
+    reply.send(shapedInvites);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -15,8 +23,12 @@ export const getInvite = async (req: any, reply: any) => {
 
 export const addInvite = async (req: any, reply: any) => {
   try {
-    const invite = await prisma.organization.create({
-      data: req.body,
+    const user = await prisma.user.findUnique({
+      where: { email: req.body.email },
+    });
+    const data = user ? { ...req.body, user_id: user.user_id } : req.body;
+    const invite = await prisma.invite.create({
+      data: data,
     });
     reply.send(invite);
   } catch (error) {
@@ -27,10 +39,23 @@ export const addInvite = async (req: any, reply: any) => {
 export const updateInvite = async (req: any, reply: any) => {
   try {
     const { invite_id } = req.params;
-    const invite = await prisma.organization.create({
+
+    const invite = await prisma.invite.update({
+      where: { invite_id: invite_id },
       data: req.body,
     });
-    reply.send(invite);
+
+    const invites = await prisma.invite.findMany({
+      where: { user_id: invite.user_id, accepted: false, rejected: false },
+      include: { org: true },
+    });
+
+    const shapedInvites = invites.map((invite) => ({
+      invite_id: invite.invite_id,
+      org_name: invite.org.org_name,
+    }));
+
+    reply.send(invites);
   } catch (error) {
     reply.status(500).send(error);
   }
@@ -39,7 +64,7 @@ export const updateInvite = async (req: any, reply: any) => {
 export const deleteInvite = async (req: any, reply: any) => {
   try {
     const { invite_id } = req.params;
-    const invite = await prisma.organization.delete({
+    const invite = await prisma.invite.delete({
       where: { invite_id: invite_id },
     });
     reply.send(invite);

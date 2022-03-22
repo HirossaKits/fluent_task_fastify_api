@@ -110,6 +110,7 @@ model Invite {
   org       Organization @relation(fields: [org_id], references: [org_id])
   email     String
   user_id   String?
-  user      User?         @relation(fields: [user_id], references: [user_id])
-  validated Boolean      @default(false)
+  user      User?        @relation(fields: [user_id], references: [user_id])
+  accepted  Boolean      @default(false)
+  rejected  Boolean      @default(false)
 }

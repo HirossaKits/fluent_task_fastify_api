@@ -47,7 +47,7 @@ export const addProject = async (req: any, reply: any) => {
     });
 
     const projects = await prisma.project.findMany({
-      where: { org_id: req.body.org_id },
+      where: { org_id: project.org_id },
       include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',
@@ -68,7 +68,7 @@ export const addProject = async (req: any, reply: any) => {
 export const updateProject = async (req: any, reply: any) => {
   try {
     const { project_id } = req.params;
-    await prisma.project.update({
+    const project = await prisma.project.update({
       where: {
         project_id: project_id,
       },
@@ -87,7 +87,7 @@ export const updateProject = async (req: any, reply: any) => {
     });
 
     const projects = await prisma.project.findMany({
-      where: { org_id: req.body.org_id },
+      where: { org_id: project.org_id },
       include: { resp: true, member: true },
       orderBy: {
         created_at: 'asc',

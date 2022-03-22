@@ -3,13 +3,13 @@ import * as inviteController from '../../../controller/inviteController';
 
 const invite = async (fastify: any, option: any, done: any) => {
   fastify.get(
-    '/:user_id',
+    '/user/:user_id',
     { schema: schema.getInvite },
     inviteController.getInvite
   );
   fastify.post('/', { schema: schema.addInvite }, inviteController.addInvite);
   fastify.put(
-    '/',
+    '/:invite_id',
     { schema: schema.updateInvite },
     inviteController.updateInvite
   );

@@ -29,7 +29,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   //   },
   // });
 
-  fastify.register(require('fastify-multipart'));
+  // fastify.register(require('fastify-multipart'));
 
   // fastify.addContentTypeParser(
   //   'multipart/form-data',
