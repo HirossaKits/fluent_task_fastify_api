@@ -28,6 +28,21 @@ const org = async (fastify: any, options: any, done: any) => {
     { schema: schema.updateOrganization },
     orgController.updateOrganization
   );
+  fastify.put(
+    '/admin/include/:org_id',
+    { schema: schema.updateOrganizationUserRelation },
+    orgController.includeOrganizationAdmin
+  );
+  fastify.put(
+    '/admin/exclude/:org_id',
+    { schema: schema.updateOrganizationUserRelation },
+    orgController.excludeOrganizationAdmin
+  );
+  fastify.put(
+    '/user/exclude/:org_id',
+    { schema: schema.updateOrganizationUserRelation },
+    orgController.excludeOrganizationUser
+  );
   fastify.delete(
     '/:org_id',
     { schema: schema.deleteOrganization },

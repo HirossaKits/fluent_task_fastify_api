@@ -84,6 +84,54 @@ export const updateOrganization = async (req: any, reply: any) => {
   }
 };
 
+export const includeOrganizationAdmin = async (req: any, reply: any) => {
+  try {
+    const { org_id } = req.params;
+    const organization = await prisma.organization.update({
+      where: { org_id: org_id },
+      data: { org_admin: { connect: [req.body] } },
+    });
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
+    reply.send(organization);
+  } catch (error) {
+    reply.status(500).send(error);
+  }
+};
+
+export const excludeOrganizationAdmin = async (req: any, reply: any) => {
+  try {
+    const { org_id } = req.params;
+    const organization = await prisma.organization.update({
+      where: { org_id: org_id },
+      data: { org_admin: { disconnect: [req.body] } },
+    });
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
+    reply.send(organization);
+  } catch (error) {
+    reply.status(500).send(error);
+  }
+};
+
+export const excludeOrganizationUser = async (req: any, reply: any) => {
+  try {
+    const { org_id } = req.params;
+    const organization = await prisma.organization.update({
+      where: { org_id: org_id },
+      data: { org_user: { connect: [req.body] } },
+    });
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
+    reply.send(organization);
+  } catch (error) {
+    reply.status(500).send(error);
+  }
+};
+
 export const deleteOrganization = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;

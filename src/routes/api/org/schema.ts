@@ -72,6 +72,18 @@ export const updateOrganization = {
   },
 };
 
+export const updateOrganizationUserRelation = {
+  param: {
+    org_id: { type: 'string' },
+  },
+  body: {
+    type: 'object',
+    properties: {
+      user_id: { type: 'string' },
+    },
+  },
+};
+
 export const deleteOrganization = {
   param: {
     org_id: { type: 'string' },
