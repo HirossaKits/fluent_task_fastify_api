@@ -45,6 +45,13 @@ export const updateInvite = async (req: any, reply: any) => {
       data: req.body,
     });
 
+    if (invite.accepted) {
+      await prisma.organization.update({
+        where: { org_id: invite.org_id },
+        data: { org_user: { connect: [{ user_id: invite.user_id }] } },
+      });
+    }
+
     const invites = await prisma.invite.findMany({
       where: { user_id: invite.user_id, accepted: false, rejected: false },
       include: { org: true },
