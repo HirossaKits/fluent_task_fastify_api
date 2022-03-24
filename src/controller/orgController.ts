@@ -61,6 +61,7 @@ export const addOrganization = async (req: any, reply: any) => {
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
     reply.status(201).send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -78,6 +79,7 @@ export const updateOrganization = async (req: any, reply: any) => {
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -90,10 +92,13 @@ export const includeOrganizationAdmin = async (req: any, reply: any) => {
     const organization = await prisma.organization.update({
       where: { org_id: org_id },
       data: { org_admin: { connect: [req.body] } },
+      include: { org_admin: true, org_user: true },
     });
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
+    console.log(organization);
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -106,10 +111,12 @@ export const excludeOrganizationAdmin = async (req: any, reply: any) => {
     const organization = await prisma.organization.update({
       where: { org_id: org_id },
       data: { org_admin: { disconnect: [req.body] } },
+      include: { org_admin: true, org_user: true },
     });
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -121,11 +128,13 @@ export const excludeOrganizationUser = async (req: any, reply: any) => {
     const { org_id } = req.params;
     const organization = await prisma.organization.update({
       where: { org_id: org_id },
-      data: { org_user: { connect: [req.body] } },
+      data: { org_user: { disconnect: [req.body] } },
+      include: { org_admin: true, org_user: true },
     });
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -142,6 +151,7 @@ export const deleteOrganization = async (req: any, reply: any) => {
     organization.org_admin_id = organization.org_admin.map(
       (obj) => obj.user_id
     );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
