@@ -24,25 +24,3 @@ services:
 volumes:
   postgres_volume:
     external: true
-# pgadmin4 を使用の場合は下記を使用
-# docker-compose up する前にvolumeを作成する
-# docker volume create pgadmin4_volume
-
-# version: '3'
-
-#   pgadmin4:
-#     image: dpage/pgadmin4:5.6
-#     container_name: pgadmin4
-#     ports:
-#       - 8000:80
-#     volumes:
-#       - pgadmin4_volume:/var/lib/pgadmin
-#     environment:
-#       PGADMIN_DEFAULT_EMAIL: root@myapp.com
-#       PGADMIN_DEFAULT_PASSWORD: root
-#     hostname: pgadmin4
-#     restart: always
-
-# volumes:
-#   pgadmin4_volume:
-#     external: true

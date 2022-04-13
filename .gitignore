@@ -67,5 +67,5 @@ dist
 # prisma migration
 prisma/migrations
 
-# uploaded image
+# image upload dest
 public/avatar_img

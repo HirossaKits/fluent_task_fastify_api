@@ -1,10 +1,12 @@
 .git
 .gitignore
 
-/.nyc_output
-/dist
-/.vscode
+.nyc_output
+dist
+.vscode
 node_modules
 
 test
 test.http
+
+postgres
