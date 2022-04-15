@@ -1,6 +1,6 @@
 import fastify from 'fastify';
 import * as schema from './schema';
-import * as userController from '../../../controller/userController';
+import * as userController from '../../controller/userController';
 
 const org = async (fastify: any, options: any, done: any) => {
   fastify.get('/', { schema: schema.getUser }, userController.getUser);

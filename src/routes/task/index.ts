@@ -1,5 +1,5 @@
 import * as schema from './schema';
-import * as taskController from '../../../controller/taskController';
+import * as taskController from '../../controller/taskController';
 
 const task = async (fastify: any, option: any, done: any) => {
   fastify.get(

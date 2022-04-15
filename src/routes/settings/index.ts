@@ -1,5 +1,5 @@
 import * as schema from './schema';
-import * as settingsController from '../../../controller/settingsController';
+import * as settingsController from '../../controller/settingsController';
 
 const settings = async (fastify: any, options: any, done: any) => {
   fastify.get(

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import task from '../routes/api/task';
+import task from '../routes/task';
 const prisma = new PrismaClient();
 
 export const getTasks = async (req: any, reply: any) => {

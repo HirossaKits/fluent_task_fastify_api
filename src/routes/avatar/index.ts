@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import { updateAvatar } from '../../../controller/avatarController';
+import { updateAvatar } from '../../controller/avatarController';
 import * as schema from './schema';
 
 const profile = async (fastify: any, options: any, done: any) => {

@@ -1,5 +1,5 @@
 import * as schema from './schema';
-import * as settingsController from '../../../controller/taskCategoryController';
+import * as settingsController from '../../controller/taskCategoryController';
 
 const taskcategory = async (fastify: any, options: any, done: any) => {
   fastify.get(

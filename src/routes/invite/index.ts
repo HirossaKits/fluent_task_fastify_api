@@ -1,5 +1,5 @@
 import * as schema from './schema';
-import * as inviteController from '../../../controller/inviteController';
+import * as inviteController from '../../controller/inviteController';
 
 const invite = async (fastify: any, option: any, done: any) => {
   fastify.get(

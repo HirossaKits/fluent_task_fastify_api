@@ -1,4 +1,4 @@
-import { signup, signin } from '../../../controller/authController';
+import { signup, signin } from '../../controller/authController';
 
 const signupOpts = {
   schema: {

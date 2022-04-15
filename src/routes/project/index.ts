@@ -1,5 +1,5 @@
 import * as schema from './schema';
-import * as projectController from '../../../controller/projectController';
+import * as projectController from '../../controller/projectController';
 
 const project = async (fastify: any, option: any, done: any) => {
   fastify.get(

@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyError } from 'fastify';
-import * as orgController from '../../../controller/orgController';
+import * as orgController from '../../controller/orgController';
 import * as schema from './schema';
 
 const org = async (fastify: any, options: any, done: any) => {

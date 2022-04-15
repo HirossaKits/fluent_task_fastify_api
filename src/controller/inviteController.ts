@@ -1,4 +1,4 @@
-import org from '../routes/api/org';
+import org from '../routes/org';
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
