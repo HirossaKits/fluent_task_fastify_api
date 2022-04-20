@@ -1,5 +1,4 @@
 const Settings = {
-  dark_mode: { type: 'boolean' },
   tooltip: { type: 'boolean' },
   private_mode: { type: 'boolean' },
   selected_org_id: { type: 'string' },

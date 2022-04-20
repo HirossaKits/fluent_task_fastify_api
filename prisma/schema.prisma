@@ -50,7 +50,6 @@ model User {
 
 model Settings {
   user_id         String  @id
-  dark_mode       Boolean @default(false)
   tooltip         Boolean @default(true)
   private_mode    Boolean @default(true)
   selected_org_id String  @default("")
