@@ -3,14 +3,32 @@ const prisma = new PrismaClient();
 
 export const getProjectFromOrg = async (req: any, reply: any) => {
   try {
+    const { user_id } = await req.jwtVerify();
     const { org_id } = req.params;
-    const projects = await prisma.project.findMany({
+
+    const org = await prisma.organization.findUnique({
+      select: { org_admin: { select: { user_id: true } } },
       where: { org_id: org_id },
-      include: { resp: true, member: true },
-      orderBy: {
-        created_at: 'asc',
-      },
     });
+
+    const projects = org.org_admin?.find((user) => user.user_id === user_id)
+      ? await prisma.project.findMany({
+          where: { org_id: org_id },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        })
+      : await prisma.project.findMany({
+          where: {
+            org_id: org_id,
+            OR: [{ resp: { user_id: user_id }, member: { user_id: user_id } }],
+          },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        });
 
     const shapedProjects = projects?.map((proj) => {
       proj.resp_id = proj.resp?.map((user) => user.user_id);
@@ -25,6 +43,9 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
 
 export const addProject = async (req: any, reply: any) => {
   try {
+    const { user_id } = await req.jwtVerify();
+    const org_id = req.body.org_id;
+
     const project = await prisma.project.create({
       data: {
         project_name: req.body.project_name,
@@ -34,6 +55,7 @@ export const addProject = async (req: any, reply: any) => {
         enddate: req.body.enddate,
       },
     });
+
     await prisma.project.update({
       where: { project_id: project.project_id },
       data: {
@@ -46,13 +68,29 @@ export const addProject = async (req: any, reply: any) => {
       },
     });
 
-    const projects = await prisma.project.findMany({
-      where: { org_id: project.org_id },
-      include: { resp: true, member: true },
-      orderBy: {
-        created_at: 'asc',
-      },
+    const org = await prisma.organization.findUnique({
+      select: { org_admin: { select: { user_id: true } } },
+      where: { org_id: org_id },
     });
+
+    const projects = org.org_admin?.find((user) => user.user_id === user_id)
+      ? await prisma.project.findMany({
+          where: { org_id: org_id },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        })
+      : await prisma.project.findMany({
+          where: {
+            org_id: org_id,
+            OR: [{ resp: { user_id: user_id }, member: { user_id: user_id } }],
+          },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        });
 
     const shapedProjects = projects?.map((proj) => {
       proj.resp_id = proj.resp?.map((user) => user.user_id);
@@ -67,6 +105,7 @@ export const addProject = async (req: any, reply: any) => {
 
 export const updateProject = async (req: any, reply: any) => {
   try {
+    const { user_id } = await req.jwtVerify();
     const { project_id } = req.params;
     const project = await prisma.project.update({
       where: {
@@ -86,13 +125,31 @@ export const updateProject = async (req: any, reply: any) => {
       },
     });
 
-    const projects = await prisma.project.findMany({
-      where: { org_id: project.org_id },
-      include: { resp: true, member: true },
-      orderBy: {
-        created_at: 'asc',
-      },
+    const org_id = project.org_id;
+
+    const org = await prisma.organization.findUnique({
+      select: { org_admin: { select: { user_id: true } } },
+      where: { org_id: org_id },
     });
+
+    const projects = org.org_admin?.find((user) => user.user_id === user_id)
+      ? await prisma.project.findMany({
+          where: { org_id: org_id },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        })
+      : await prisma.project.findMany({
+          where: {
+            org_id: org_id,
+            OR: [{ resp: { user_id: user_id }, member: { user_id: user_id } }],
+          },
+          include: { resp: true, member: true },
+          orderBy: {
+            created_at: 'asc',
+          },
+        });
 
     const shapedProjects = projects?.map((proj) => {
       proj.resp_id = proj.resp?.map((user) => user.user_id);

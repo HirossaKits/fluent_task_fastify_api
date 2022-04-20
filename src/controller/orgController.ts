@@ -1,3 +1,5 @@
+import { disconnect } from 'process';
+
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -126,11 +128,32 @@ export const excludeOrganizationAdmin = async (req: any, reply: any) => {
 export const excludeOrganizationUser = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
+
     const organization = await prisma.organization.update({
       where: { org_id: org_id },
-      data: { org_user: { disconnect: [req.body] } },
+      data: {
+        org_admin: { disconnect: [req.body] },
+        org_user: { disconnect: [req.body] },
+      },
       include: { org_admin: true, org_user: true },
     });
+
+    await prisma.project.update({
+      where: { org_id: org_id },
+      data: {
+        resp: { disconnect: [req.body] },
+        member: { disconnect: [req.body] },
+      },
+    });
+
+    await prisma.task.update({
+      where: { org_id: org_id },
+      data: {
+        assigned: { disconnect: [req.body] },
+        author: { disconnect: [req.body] },
+      },
+    });
+
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
