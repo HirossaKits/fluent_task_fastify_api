@@ -84,7 +84,10 @@ export const addProject = async (req: any, reply: any) => {
       : await prisma.project.findMany({
           where: {
             org_id: org_id,
-            OR: [{ resp: { user_id: user_id }, member: { user_id: user_id } }],
+            OR: [
+              { resp: { user_id: user_id } },
+              { member: { user_id: user_id } },
+            ],
           },
           include: { resp: true, member: true },
           orderBy: {

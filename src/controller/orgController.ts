@@ -129,7 +129,7 @@ export const excludeOrganizationUser = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
 
-    const organization = await prisma.organization.update({
+    let organization = await prisma.organization.update({
       where: { org_id: org_id },
       data: {
         org_admin: { disconnect: [req.body] },
@@ -138,22 +138,23 @@ export const excludeOrganizationUser = async (req: any, reply: any) => {
       include: { org_admin: true, org_user: true },
     });
 
-    const res = await prisma.project.update({
-      where: { org_id: org_id },
-      data: {
-        resp: { disconnect: [req.body] },
-        member: { disconnect: [req.body] },
-      },
-    });
+    console.log(organization.project);
 
-    console.log(res);
-
-    await prisma.task.update({
-      where: { org_id: org_id },
-      data: {
-        assigned: { disconnect: [req.body] },
-        author: { disconnect: [req.body] },
-      },
+    organization.project?.map((proj) => {
+      prisma.project.update({
+        where: { project_id: proj.project_id },
+        data: {
+          resp: { disconnect: [req.body] },
+          member: { disconnect: [req.body] },
+        },
+      });
+      prisma.task.updateMany({
+        where: { project_id: proj.project_id },
+        data: {
+          assigned: { disconnect: [req.body] },
+          author: { disconnect: [req.body] },
+        },
+      });
     });
 
     organization.org_admin_id = organization.org_admin?.map(
