@@ -138,13 +138,15 @@ export const excludeOrganizationUser = async (req: any, reply: any) => {
       include: { org_admin: true, org_user: true },
     });
 
-    await prisma.project.update({
+    const res = await prisma.project.update({
       where: { org_id: org_id },
       data: {
         resp: { disconnect: [req.body] },
         member: { disconnect: [req.body] },
       },
     });
+
+    console.log(res);
 
     await prisma.task.update({
       where: { org_id: org_id },
