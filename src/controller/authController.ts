@@ -24,7 +24,7 @@ export const signup = async (req: any, reply: any) => {
     });
     const org = await prisma.organization.create({
       data: {
-        org_name: 'Private',
+        org_name: '',
         org_owner: { connect: { user_id: user.user_id } },
         org_admin: { connect: [{ user_id: user.user_id }] },
         org_user: { connect: [{ user_id: user.user_id }] },

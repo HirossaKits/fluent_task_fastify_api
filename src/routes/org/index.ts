@@ -19,8 +19,8 @@ const org = async (fastify: any, options: any, done: any) => {
     orgController.getPublicOrganization
   );
   fastify.post(
-    '/',
-    { schema: schema.addOrganization },
+    '/public',
+    { schema: schema.addPublicOrganization },
     orgController.addOrganization
   );
   fastify.put(

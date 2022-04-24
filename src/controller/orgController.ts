@@ -56,14 +56,28 @@ export const getPublicOrganization = async (req: any, reply: any) => {
 
 export const addOrganization = async (req: any, reply: any) => {
   try {
+    const { user_id } = await req.jwtVerify();
+    const { org_name } = req.body;
+
     const organization = await prisma.organization.create({
-      data: req.body,
-      include: { org_admin: true, org_user: true },
+      data: {
+        org_name: org_name,
+        org_owner: { connect: { user_id: user_id } },
+        org_admin: { connect: [{ user_id: user_id }] },
+        org_user: { connect: [{ user_id: user_id }] },
+        is_private: false,
+      },
     });
     organization.org_admin_id = organization.org_admin?.map(
       (obj) => obj.user_id
     );
     delete organization.org_admin;
+
+    await prisma.user.update({
+      where: { user_id: user_id },
+      data: { is_premium: true },
+    });
+
     reply.status(201).send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -163,11 +177,12 @@ export const excludeOrganizationUser = async (req: any, reply: any) => {
       },
     });
 
-    organization.org_admin_id = organization.org_admin?.map(
-      (obj) => obj.user_id
-    );
-    delete organization.org_admin;
-    reply.send(organization);
+    // organization.org_admin_id = organization.org_admin?.map(
+    //   (obj) => obj.user_id
+    // );
+    // delete organization.org_admin;
+    // reply.send(organization);
+    reply.send({ test: 'test' });
   } catch (error) {
     reply.status(500).send(error);
   }

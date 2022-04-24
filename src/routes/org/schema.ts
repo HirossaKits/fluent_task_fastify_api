@@ -42,7 +42,7 @@ export const getPublicOrganization = {
   },
 };
 
-export const addOrganization = {
+export const addPublicOrganization = {
   params: {
     org_id: { type: 'string' },
   },
