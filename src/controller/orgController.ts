@@ -142,47 +142,51 @@ export const excludeOrganizationAdmin = async (req: any, reply: any) => {
 export const excludeOrganizationUser = async (req: any, reply: any) => {
   try {
     const { org_id } = req.params;
+    const { user_id } = req.body;
 
-    // let organization = await prisma.organization.update({
-    //   where: { org_id: org_id },
-    //   data: {
-    //     org_admin: { disconnect: [req.body] },
-    //     org_user: { disconnect: [req.body] },
-    //   },
-    //   include: { org_admin: true, org_user: true },
-    // });
-
-    // organization.project?.map((proj) => {
-    //   prisma.project.update({
-    //     where: { project_id: proj.project_id },
-    //     data: {
-    //       resp: { disconnect: [req.body] },
-    //       member: { disconnect: [req.body] },
-    //     },
-    //   });
-    //   prisma.task.updateMany({
-    //     where: { project_id: proj.project_id },
-    //     data: {
-    //       assigned: { disconnect: [req.body] },
-    //       author: { disconnect: [req.body] },
-    //     },
-    //   });
-    // });
-
-    prisma.project.updateMany({
-      where: { org: { is: { org_id: org_id } } },
+    const organization = await prisma.organization.update({
+      where: { org_id: org_id },
       data: {
-        resp: { disconnect: [req.body] },
-        member: { disconnect: [req.body] },
+        org_admin: { disconnect: [req.body] },
+        org_user: { disconnect: [req.body] },
       },
+      include: { project: true },
     });
 
-    // organization.org_admin_id = organization.org_admin?.map(
-    //   (obj) => obj.user_id
-    // );
-    // delete organization.org_admin;
-    // reply.send(organization);
-    reply.send({ test: 'test' });
+    Promise.all(
+      organization.project?.map(async (proj) => {
+        const project = await prisma.project.update({
+          where: { project_id: proj.project_id },
+          data: {
+            resp: { disconnect: [req.body] },
+            member: { disconnect: [req.body] },
+          },
+          include: { task: true },
+        });
+        Promise.all(
+          project.task.map(async (tsk) => {
+            await prisma.task.updateMany({
+              where: { task_id: tsk.task_id, assigned_id: user_id },
+              data: {
+                assigned_id: null,
+              },
+            });
+            await prisma.task.updateMany({
+              where: { task_id: tsk.task_id, author_id: user_id },
+              data: {
+                author_id: null,
+              },
+            });
+          })
+        );
+      })
+    );
+
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
+    delete organization.org_admin;
+    reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
   }

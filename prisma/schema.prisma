@@ -81,8 +81,8 @@ model Task {
   task_category       TaskCategory? @relation(fields: [task_category_id], references: [task_category_id])
   assigned_id         String?
   assigned            User?         @relation(name: "task_assigned", fields: [assigned_id], references: [user_id])
-  author_id           String
-  author              User          @relation(name: "task_author", fields: [author_id], references: [user_id])
+  author_id           String?
+  author              User?         @relation(name: "task_author", fields: [author_id], references: [user_id])
   description         String
   status              String
   estimate_manhour    Int?
