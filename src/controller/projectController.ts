@@ -11,36 +11,38 @@ export const getProjectFromOrg = async (req: any, reply: any) => {
       where: { org_id: org_id },
     });
 
-    const projects = org.org_admin?.find((user) => user.user_id === user_id)
-      ? await prisma.project.findMany({
-          where: { org_id: org_id },
-          include: { resp: true, member: true },
-          orderBy: {
-            created_at: 'asc',
-          },
-        })
-      : await prisma.project.findMany({
-          where: {
-            org_id: org_id,
-            OR: [
-              {
-                resp: { some: { user_id: user_id } },
-                member: { some: { user_id: user_id } },
-              },
-            ],
-          },
-          include: { resp: true, member: true },
-          orderBy: {
-            created_at: 'asc',
-          },
-        });
+    console.log(org);
+    // const projects = org.org_admin?.find((user) => user.user_id === user_id)
+    //   ? await prisma.project.findMany({
+    //       where: { org_id: org_id },
+    //       include: { resp: true, member: true },
+    //       orderBy: {
+    //         created_at: 'asc',
+    //       },
+    //     })
+    //   : await prisma.project.findMany({
+    //       where: {
+    //         org_id: org_id,
+    //         OR: [
+    //           {
+    //             resp: { some: { user_id: user_id } },
+    //             member: { some: { user_id: user_id } },
+    //           },
+    //         ],
+    //       },
+    //       include: { resp: true, member: true },
+    //       orderBy: {
+    //         created_at: 'asc',
+    //       },
+    //     });
 
-    const shapedProjects = projects?.map((proj) => {
-      proj.resp_id = proj.resp?.map((user) => user.user_id);
-      proj.member_id = proj.member?.map((user) => user.user_id);
-      return proj;
-    });
-    reply.send(shapedProjects);
+    // const shapedProjects = projects?.map((proj) => {
+    //   proj.resp_id = proj.resp?.map((user) => user.user_id);
+    //   proj.member_id = proj.member?.map((user) => user.user_id);
+    //   return proj;
+    // });
+    // reply.send(shapedProjects);
+    reply.send({ test: 'test' });
   } catch (error) {
     reply.status(500).send(error);
   }

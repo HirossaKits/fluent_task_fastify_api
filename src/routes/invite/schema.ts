@@ -1,5 +1,6 @@
 const Invite = {
   invite_id: { type: 'string' },
+  org_id: { type: 'string' },
   org_name: { type: 'string' },
 };
 

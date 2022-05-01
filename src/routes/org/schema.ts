@@ -33,14 +33,14 @@ export const getPrivateOrganization = {
   },
 };
 
-export const getPublicOrganization = {
-  params: {
-    user_id: { type: 'string' },
-  },
-  response: {
-    200: Organization,
-  },
-};
+// export const getPublicOrganization = {
+//   params: {
+//     user_id: { type: 'string' },
+//   },
+//   response: {
+//     200: Organization,
+//   },
+// };
 
 export const addPublicOrganization = {
   params: {

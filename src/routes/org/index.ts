@@ -13,11 +13,6 @@ const org = async (fastify: any, options: any, done: any) => {
     { schema: schema.getPrivateOrganization },
     orgController.getPrivateOrganization
   );
-  fastify.get(
-    '/public/:user_id',
-    { schema: schema.getPublicOrganization },
-    orgController.getPublicOrganization
-  );
   fastify.post(
     '/public',
     { schema: schema.addPublicOrganization },

@@ -8,10 +8,9 @@
   },
   "scripts": {
     "test": "npm run build:ts && tsc -p test/tsconfig.json && jest",
-    "start": "npx prisma generate && npm run build:ts && fastify start -l info dist/app.js",
+    "start": "npm run build:ts && fastify start -l info dist/app.js",
     "build:ts": "tsc",
-    "dev": "tsc && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js\"",
-    "ecs": "npx prisma generate && npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js\""
+    "dev": "tsc && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js\""
   },
   "keywords": [],
   "author": "",
@@ -22,8 +21,8 @@
     "bcrypt": "^5.0.1",
     "chalk": "^2.4.1",
     "dotenv": "^16.0.0",
-    "fastify": "^3.27.4",
-    "fastify-autoload": "^3.10.0",
+    "fastify": "^3.29.0",
+    "fastify-autoload": "^3.13.0",
     "fastify-cli": "^2.15.0",
     "fastify-cors": "^6.0.2",
     "fastify-jwt": "^4.1.3",
