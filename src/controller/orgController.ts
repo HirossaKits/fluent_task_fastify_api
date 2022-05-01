@@ -5,17 +5,15 @@ const prisma = new PrismaClient();
 
 export const getOrganization = async (req: any, reply: any) => {
   try {
-    console.log('params', req.params);
     const { org_id } = req.params;
     const organization = await prisma.organization.findUnique({
       where: { org_id: org_id },
       include: { org_admin: true, org_user: true },
     });
-    console.log(organization);
-    // organization.org_admin_id = organization.org_admin?.map(
-    //   (obj) => obj.user_id
-    // );
-    // delete organization.org_admin;
+    organization.org_admin_id = organization.org_admin?.map(
+      (obj) => obj.user_id
+    );
+    delete organization.org_admin;
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);
@@ -99,7 +97,6 @@ export const includeOrganizationAdmin = async (req: any, reply: any) => {
       (obj) => obj.user_id
     );
     delete organization.org_admin;
-    console.log(organization);
     reply.send(organization);
   } catch (error) {
     reply.status(500).send(error);

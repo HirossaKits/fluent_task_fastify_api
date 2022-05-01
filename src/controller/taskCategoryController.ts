@@ -56,7 +56,6 @@ export const deleteTaskCategory = async (req, reply) => {
       where: { project_id: taskCategory.project_id },
       orderBy: { task_category_id: 'asc' },
     });
-    console.log(taskCategories);
     reply.send(taskCategories);
   } catch (error) {
     reply.status(500).send(error);
