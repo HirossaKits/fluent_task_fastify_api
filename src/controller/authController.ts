@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 import * as bcrypt from 'bcrypt';
+import { read } from 'fs';
 const jwt = require('jsonwebtoken');
 
 const hashPassword = (password) => {
@@ -31,6 +32,12 @@ export const signup = async (req: any, reply: any) => {
         is_private: true,
       },
     });
+
+    await prisma.invite.updateMany({
+      where: { email: req.body.email, user_id: null },
+      data: { user_id: user.user_id },
+    });
+
     const token = generateToken({
       user_id: user.user_id,
     });

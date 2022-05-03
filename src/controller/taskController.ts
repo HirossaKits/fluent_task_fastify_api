@@ -51,7 +51,6 @@ export const updateTask = async (req: any, reply: any) => {
 export const updateTaskStatus = async (req: any, reply: any) => {
   try {
     const { task_id } = req.params;
-    console.log(req.body);
     const task = await prisma.task.update({
       where: { task_id: task_id },
       data: req.body,

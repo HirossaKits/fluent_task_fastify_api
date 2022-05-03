@@ -12,6 +12,7 @@ export const getInvite = async (req: any, reply: any) => {
     });
     const shapedInvites = invites.map((invite) => ({
       invite_id: invite.invite_id,
+      org_id: invite.org_id,
       org_name: invite.org.org_name,
     }));
 
@@ -26,10 +27,20 @@ export const addInvite = async (req: any, reply: any) => {
     const user = await prisma.user.findUnique({
       where: { email: req.body.email },
     });
-    const data = user ? { ...req.body, user_id: user.user_id } : req.body;
-    const invite = await prisma.invite.create({
-      data: data,
+    const data = user
+      ? { ...req.body, user_id: user.user_id }
+      : { ...req.body, user_id: null };
+
+    let invite = await prisma.invite.findFirst({
+      where: { ...data, accepted: false, rejected: false },
     });
+
+    if (!invite) {
+      invite = await prisma.invite.create({
+        data: data,
+      });
+    }
+
     reply.send(invite);
   } catch (error) {
     reply.status(500).send(error);
