@@ -24,10 +24,10 @@ export const getProject = async (req: any, reply: any) => {
             org_id: org_id,
             OR: [
               {
-                resp: { contains: { user_id: user_id } },
-                member: { contains: { user_id: user_id } },
-                // resp: { some: { user_id: user_id } },
-                // member: { some: { user_id: user_id } },
+                resp: { some: { user_id: user_id } },
+              },
+              {
+                member: { some: { user_id: user_id } },
               },
             ],
           },
@@ -94,10 +94,10 @@ export const addProject = async (req: any, reply: any) => {
             org_id: org_id,
             OR: [
               {
-                resp: { contains: { user_id: user_id } },
-                member: { contains: { user_id: user_id } },
-                // resp: { some: { user_id: user_id } },
-                // member: { some: { user_id: user_id } },
+                resp: { some: { user_id: user_id } },
+              },
+              {
+                member: { some: { user_id: user_id } },
               },
             ],
           },
@@ -160,10 +160,10 @@ export const updateProject = async (req: any, reply: any) => {
             org_id: org_id,
             OR: [
               {
-                resp: { contains: { user_id: user_id } },
-                member: { contains: { user_id: user_id } },
-                // resp: { some: { user_id: user_id } },
-                // member: { some: { user_id: user_id } },
+                resp: { some: { user_id: user_id } },
+              },
+              {
+                member: { some: { user_id: user_id } },
               },
             ],
           },
@@ -215,10 +215,10 @@ export const deleteProject = async (req: any, reply: any) => {
             org_id: org_id,
             OR: [
               {
-                resp: { contains: { user_id: user_id } },
-                member: { contains: { user_id: user_id } },
-                // resp: { some: { user_id: user_id } },
-                // member: { some: { user_id: user_id } },
+                resp: { some: { user_id: user_id } },
+              },
+              {
+                member: { some: { user_id: user_id } },
               },
             ],
           },
