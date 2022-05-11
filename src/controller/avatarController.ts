@@ -12,7 +12,7 @@
 //     const { user_id } = req.params;
 //     const data = await req.file();
 
-//     if (data.fieldname != 'upload_file') {
+//     if (data.fieldname != 'upload_file') {sta
 //       reply.send(500).send(`Field ${data.fieldname} is not appropriate.`);
 //     }
 //     data.filepath = '../../public/avatar_img';
@@ -94,7 +94,7 @@ export const updateAvatar = async (req: any, reply: any) => {
     });
 
     const avatar_img =
-      process.env.API_ROOT +
+      process.env.ALLOWED_ORIGIN +
       `/public/avatar/${user_id}.${ext}?${new Date().toLocaleTimeString()}`;
 
     const user = await prisma.user.update({
