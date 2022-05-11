@@ -1,3 +1,4 @@
+// // ローカルに保存する場合
 // import { PrismaClient } from '@prisma/client';
 // require('dotenv').config();
 // const fs = require('fs');
@@ -41,6 +42,7 @@
 //   }
 // };
 
+// S3に保存する場合
 import { PrismaClient } from '@prisma/client';
 
 const fs = require('fs');
@@ -59,7 +61,7 @@ export const updateAvatar = async (req: any, reply: any) => {
       return;
     }
 
-    const allowedExt = ['jpeg', 'JPEG', 'ping', 'PING', 'svg', 'SVG'];
+    const allowedExt = ['jpeg', 'JPEG', 'png', 'PNG', 'svg', 'SVG'];
     const ext = fileName.slice(fileName.lastIndexOf('.') + 1);
     const mime = data.mimetype.slice(0, data.mimetype.lastIndexOf('/'));
     if (mime != 'image' || !allowedExt.includes(ext)) {
